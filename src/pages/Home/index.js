@@ -1,8 +1,15 @@
-function Home(){
+import TopContent from "../../components/TopContent";
+import ContentProduct from "../../components/ContentProduct";
+import ProductCate from "../../components/ProductCate";
+
+function Home() {
+
     return (
-    <div>
-        <h2>Homepage</h2>
-    </div>
+        <div>
+            <TopContent />
+            <ContentProduct />
+            <ProductCate />
+        </div>
     );
 }
 

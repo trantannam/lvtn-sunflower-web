@@ -1,52 +1,53 @@
 import {GrMap, GrPhone} from "react-icons/gr";
 import {GiShoppingCart} from "react-icons/gi";
 import {FaSearch} from "react-icons/fa";
+import "./header.css";
 
 function Header() {
     return (
         <div id="middle-header">
-            <div class="container">
-                <div class="col-logo">
+            <div className="container">
+                <div className="col-logo">
                     <img src='/sunFlower.png' alt='logo' />
                 </div>
-                <div class="col-search">
+                <div className="col-search">
                     <form method='get'>
-                        <div class="input-group">
-                            <input class="form-control" type="text" placeholder='search' />
-                            <div class="input-group-append">
-                                <button class="btn btn-search">
-                                    <FaSearch class="icon" />
+                        <div className="input-group">
+                            <input className="form-control" type="text" placeholder='search' />
+                            <div className="input-group-append">
+                                <button className="btn btn-search">
+                                    <FaSearch className="icon" />
                                 </button>
                             </div>
                         </div>
                     </form>
                 </div>
-                <div class="col-pull-menu">
-                    <ul class="box-group pull-right">
+                <div className="col-pull-menu">
+                    <ul className="box-group pull-right">
                         <li>
-                            <div class="group-item">
-                                <GrMap class="icon" />
-                                <div class="item-text">
+                            <div className="group-item">
+                                <GrMap className="icon" />
+                                <div className="item-text">
                                     <a>Giao đến</a>
                                     <span>Cần Thơ</span>
                                 </div>
                             </div>
                         </li>
                         <li>
-                            <div class="group-item">
-                                <GrPhone class="icon" />
-                                <div class="item-text">
+                            <div className="group-item">
+                                <GrPhone className="icon" />
+                                <div className="item-text">
                                     <a>Giao đến</a>
                                     <span>Cần Thơ</span>
                                 </div>
                             </div>
                         </li>
                         <li>
-                            <div class="group-item cart-item">
-                                <div class="icon">
+                            <div className="group-item cart-item">
+                                <div className="icon">
                                     <a href=''>
                                         <GiShoppingCart />
-                                        <span id="cart-num">0</span>
+                                        <span id="cart-num"><p className="num">0</p></span>
                                     </a>
                                 </div>
                             </div>

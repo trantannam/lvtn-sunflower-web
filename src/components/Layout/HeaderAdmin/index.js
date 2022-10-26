@@ -1,4 +1,5 @@
-import Header from './Header';
+import Header from "../components/Header";
+
 
 function HeaderAdmin({children}){
     return(

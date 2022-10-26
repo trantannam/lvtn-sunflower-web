@@ -1,0 +1,62 @@
+
+/* top bar */
+#topbar{
+  min-height: 30px;
+  background:coral ;
+  display: block;
+}
+
+/* 
+#topbar .languages-vietnamese{
+  
+} */
+
+#topbar .languages{
+  padding: 7px 15px 0 15px;
+  float: left;
+  position: relative;
+  font-size: 14px;
+  font-weight: 600;
+  color:beige;
+  width: calc(100%/6);
+}
+
+#topbar .topbar_right{
+  padding: 0 15px;
+}
+
+#topbar .topbar_menu{
+  width: 83.33333333%;
+  float: left;
+  position: relative;
+}
+
+#topbar .menu{
+  float: right;
+  margin-right: -36px;
+}
+
+#topbar .topbar_menu li{
+  list-style-type: none;
+  display: inline-block;
+}
+
+#topbar .topbar_menu li a{
+  display: block;
+  color: #fff;
+  line-height: 30px;
+  padding: 0 20px;
+  font-size: 14px;
+}
+
+/* #topbar .menu-content{
+  
+} */
+
+#topbar .menu_logo{
+  margin-right: 6px;
+  margin-top: -4px;
+  font-size: 18px;
+  width: 18px;
+  vertical-align: middle;
+}

@@ -1,0 +1,121 @@
+.group-product-wrap{
+    position: relative;
+    border: 1px solid #efefef;
+    border-radius: 10px;
+    padding: 30px 30px 0;
+    margin-bottom: 30px;
+  } 
+  
+  .product{
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 20px;
+  }
+  
+  .product .col-product-item{
+    width: 20%;
+  }
+  
+  .product .product-item{
+    position: relative;
+    min-height: 370px;
+    margin-bottom: 20px;
+  }
+  
+  .product .product-item .product-img{
+    height: 235px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 10px;
+    border: 1px solid #efefef;
+    text-align: center;
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  
+  .product .product-item .product-img img{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    max-width: 100%;
+    transition: all .5s;
+  }
+  
+  .product .product-item .product-title{
+    text-align: center;
+    height: 50px;
+    overflow: hidden;
+  }
+  
+  .product .product-item .product-title a{
+    padding: 10px 10px 5px;
+    color: #333;
+    display: block;
+  }
+  
+  .product-item .product-button-wrapper{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .product .product-item .product-button-wrapper .product-price {
+      text-align: center !important;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+  }
+  
+  .product .product-item .product-price{
+    padding: 0 10px;
+    font-weight: 300;
+  }
+  
+  .product .product-item .product-button-wrapper .add-cart-wrapper{
+    width: 60%;
+    margin-top: 5px;
+    text-align: center;
+  }
+  
+  .product .product-item .product-button-wrapper .btn-addcart-wrapper{
+    width: 100%;
+    text-align: center;
+  }
+  
+  .btn-addcart-wrapper .btn-addcart {
+    background: #ED1D24;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 3px 2px;
+    margin: 0px auto;
+    width: 80%;
+    border-radius: 25px;
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+  }
+  
+  .btn-addcart-wrapper .btn-addcart .__text{
+    width: 80%;
+    text-align: center;
+    padding: 5px;
+    word-wrap: break-word;
+    font-size: 11px;
+    text-transform: capitalize;
+    white-space: pre-wrap;
+  }
+  
+  .btn-addcart-wrapper .btn-addcart .__icon{
+    width: 25px;
+    padding: 2px;
+    border-radius: 50%;
+    font-size: 24px;
+    background: #fff;
+    color: #ED1D24;
+  }
