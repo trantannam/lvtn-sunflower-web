@@ -1,6 +1,17 @@
 import React from "react";
 import {GoThreeBars} from "react-icons/go";
 import "./TopContent.css";
+import AwesomeSlider from "react-awesome-slider";
+import slider1 from "../../img/slider/slider1.jpg";
+import slider2 from "../../img/slider/slider2.jpg";
+import slider3 from "../../img/slider/slider3.jpg";
+import slider4 from "../../img/slider/slider4.jpg";
+import slider5 from "../../img/slider/slider5.jpg";
+import AwesomeSliderStyles from "react-awesome-slider/src/styles"
+import withAutoplay from "react-awesome-slider/dist/autoplay.js";
+
+const AutoplaySlider = withAutoplay(AwesomeSlider);
+
 
 function TopContent() {
     return (
@@ -72,7 +83,20 @@ function TopContent() {
                             </li>
                         </ul>
                     </nav>
-                    <div class="banner"></div>
+                    <div class="banner">
+                        <AutoplaySlider
+                            play={true}
+                            cancelOnInteraction={false}
+                            interval={2000}
+                            // cssModule={AwesomeSliderStyles}
+                        >
+                            <div data-src={slider1}/>
+                            <div data-src={slider2}/>
+                            <div data-src={slider3}/>
+                            <div data-src={slider4}/>
+                            <div data-src={slider5}/>
+                        </AutoplaySlider>
+                    </div>
                 </div>
                 <div class="right-banner">
                     <ul class="services-box">

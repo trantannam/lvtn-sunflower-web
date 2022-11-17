@@ -1,0 +1,72 @@
+#section-cate{
+    margin-left: -15px;
+    margin-right: -15px;
+}
+
+#section-cate .wrap-cate-left{
+    width: 16.66666666%;
+    float: left;
+    position: relative;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+#section-cate .wrap-cate-right{
+    width: 83.3333333333%;
+    float: left;
+    position: relative;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+  
+}
+
+.wrap-cate-left .dropdown-toggle{
+    text-transform: uppercase;
+    font-weight: 600;
+    padding: 10px 15px;
+    border: none;
+    color: #000;
+    background-color: #fff;
+    width: 100%;
+    border-radius: 0;
+    text-align: left;
+}
+
+.wrap-cate-left .dropdown-toggle .icon {
+    width: 20px;
+    margin-right: 10px;
+    font-size: 25px;
+    color: #000;
+}
+
+.cate-menu-dropdown .dropdown-toggle .caret {
+    margin-top: 7px;
+}
+
+.nav-extend {
+    margin-top: 5px;
+}
+  
+.nav-extend ul{
+    width: 100%;
+    display: flex;
+    justify-content: start;
+}
+  
+.nav-extend ul li{
+    margin-right: 15px;
+}
+  
+.nav-extend ul li a{
+    color: #333;
+    font-weight: 700;
+}
+  
+.nav-extend ul li a span {
+      float: left;
+      display: block;
+      line-height: 28px;
+      padding: 0 6px;
+}

@@ -1,76 +1,86 @@
-import demo from "../../img/18_800x800.jpg";
-import {BiPlus} from "react-icons/bi";
+import React, { useEffect } from "react";
+import { BiPlus } from "react-icons/bi";
 import "./ProductCate.css";
+import request from "../../utils/request";
+import { useState } from "react";
+import { GrFormAdd, GrFormSubtract } from 'react-icons/gr'
+import { apiURL } from "../../utils/callAPI";
+
 
 function ProductCate() {
-    return (
-        <div class="container">
-            <div class="group-product-wrap">
-                <h2>HOA DEMO</h2>
-                <div class="row product">
-                    <div class="col-product-item">
-                        <div class="product-item">
-                            <div class="product-img">
-                                <a href=''>
-                                    <img src={demo} alt='hoa' />
-                                </a>
-                            </div>
-                            <div class="product-title">
-                                <a href=''>
-                                    <span>Hoa Demo</span>
-                                </a>
-                            </div>
-                            <div class="product-button-wrapper">
-                                <div class="product-price">
-                                    <b>
-                                        <span class="notranslate">1000000</span>
-                                    </b>
-                                </div>
-                                <div class="add-cart-wrapper">
-                                    <div class="btn-addcart-wrapper">
-                                        <button class="btn btn-addcart" type='button'>
-                                            <span class="__text">Mua Ngay</span>
-                                            <BiPlus class="__icon" />
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div class="col-product-item">
-                        <div class="product-item">
-                            <div class="product-img">
-                                <a href=''>
-                                    <img src={demo} alt='hoa' />
-                                </a>
-                            </div>
-                            <div class="product-title">
-                                <a href=''>
-                                    <span>Hoa Demo</span>
-                                </a>
-                            </div>
-                            <div class="product-button-wrapper">
-                                <div class="product-price">
-                                    <b>
-                                        <span class="notranslate">1000000</span>
-                                    </b>
+    // const [pro, setPro] = useState([])
+    const [productCategrory, setProductCategrory] = useState([]);
+    // const [addItem, setAddItem] = useState(false);
+    // const [showButton, setShowButton] = useState();
+
+    async function getProduct() {
+        await request.get(`/product`)
+            .then(function (res) {
+                setProductCategrory(res.data.products);
+                // console.log('loi truy cap', res.data)
+            })
+            .catch((err) => {
+                console.error('loi truy cap', err)
+            })
+    }
+
+    useEffect(() => { getProduct(); }, [])
+    // console.log('product',productCategrory)
+
+    return (
+        <div className="container">
+            <div className="group-product-wrap">
+                <h2>DANH MỤC SẢN PHẨM</h2>
+                <div className="row product">
+
+                    {/* product item render */}
+                    {productCategrory.map((product, index) =>(
+                        <div key={index} className="col-product-item">
+                            <div className="product-item">
+                                <div className="product-img">
+                                    <a href={`/detailproduct?id=${product._id}`}>
+                                        <img src={`${apiURL}` + product.image} alt='' />
+                                    </a>
                                 </div>
-                                <div class="add-cart-wrapper">
-                                    <div class="btn-addcart-wrapper">
-                                        <button class="btn btn-addcart" type='button'>
-                                            <span class="__text">Mua Ngay</span>
-                                            <BiPlus class="__icon" />
-                                        </button>
+                                <div className="product-title">
+                                    <a href=''>
+                                        <span>{product.productname}</span>
+                                    </a>
+                                </div>
+                                <div className="product-button-wrapper">
+                                    <div className="product-price">
+                                        <b>
+                                            <span className="notranslate">Giá: {product.price} VND</span>
+                                        </b>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    ))}
                 </div>
             </div>
         </div>
     );
 }
+
+// {!addItem ?
+//     <div className="btn-addcart-wrapper">
+//         <button className="btn btn-addcart" type='button' onClick={() => handleClick(product, index)}>
+//             <BiPlus className="__icon" />
+//             <span className="__text">Mua Ngay</span>
+//         </button>
+//     </div>
+//     :
+//     <div className="btn-addcart-quantity-wrapper">
+//         <button className="btn __item qty-icon">
+//             <GrFormSubtract className="btn-addcart-quantity-wrapper icon" />
+//         </button>
+//         <input className="__item qty-input" type="text" />
+//         <button className="btn __item qty-icon green">
+//             <GrFormAdd className="btn-addcart-quantity-wrapper icon" />
+//         </button>
+//     </div>
+// }
 
 export default ProductCate;

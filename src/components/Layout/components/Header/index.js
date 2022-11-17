@@ -1,14 +1,19 @@
-import {GrMap, GrPhone} from "react-icons/gr";
-import {GiShoppingCart} from "react-icons/gi";
-import {FaSearch} from "react-icons/fa";
+import { Link } from "react-router-dom";
+import { GrMap, GrPhone } from "react-icons/gr";
+import { GiShoppingCart } from "react-icons/gi";
+import { FaSearch } from "react-icons/fa";
 import "./header.css";
 
 function Header() {
+
+
+
     return (
         <div id="middle-header">
-            <div className="container">
+                <div className="container">
+                {/* <div className="container"> */}
                 <div className="col-logo">
-                    <img src='/sunFlower.png' alt='logo' />
+                    <Link to="/"><img src='/sunFlower.png' alt='logo' /></Link>
                 </div>
                 <div className="col-search">
                     <form method='get'>
@@ -45,15 +50,16 @@ function Header() {
                         <li>
                             <div className="group-item cart-item">
                                 <div className="icon">
-                                    <a href=''>
+                                    <Link to={"/Cart"}>
                                         <GiShoppingCart />
                                         <span id="cart-num"><p className="num">0</p></span>
-                                    </a>
+                                    </Link>
                                 </div>
                             </div>
                         </li>
                     </ul>
                 </div>
+                {/* </div> */}
             </div>
         </div>
     );

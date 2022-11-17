@@ -113,12 +113,11 @@
   }
   
   .banner{
-    max-height: 300px;
     margin-top: 20px;
     overflow: hidden;
     border-radius: 15px;
     background-color: antiquewhite;
-    height: 200px;
+    height: 300px;
   }
   
   .services-box{

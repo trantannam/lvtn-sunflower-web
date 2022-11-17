@@ -1,16 +1,19 @@
 import Header from '../components/Header';
 import Topbar from '../components/Topbar';
+import SectionCate from './SectionCate';
 
-function DefaultLayout({children}){
+
+function ChildLayout({children}){
     return(
         <div>
             <Topbar/>
-            <Header/>
             <div className='container'>
+                <Header/>
+                <SectionCate/>
                 <div className='content'>{children}</div>
             </div>
         </div>
     );
 }
 
-export default DefaultLayout;
+export default ChildLayout;

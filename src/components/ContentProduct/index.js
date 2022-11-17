@@ -1,35 +1,31 @@
-import "./ContentProduct.css"
+import { useEffect, useState } from "react";
+import request from "../../utils/request";
+import "./ContentProduct.css";
 
 function ContentProduct() {
+
+    const [productType, setproductType] = useState([])
+
+    const getProductType = () =>{
+        request.get(`producttype`)
+        .then((res)=>{
+            // console.log(res.data);
+            setproductType(res.data.producttype)
+        })
+    }
+
+    useEffect(getProductType,[]);
+
     return (
-        <div class="container" id="product-cate-wrapper">
-            <div class="product-type">
-                <ul class="type-list">
-                    <li>
+        <div className="container" id="product-cate-wrapper">
+            <div className="product-type">
+                <ul className="type-list">
+                    {productType.map((item, index)=>
+                    <li id={index}>
                         <a>
-                            <span>1</span>
+                            <span>{item.name}</span>
                         </a>
-                    </li>
-                    <li>
-                        <a>
-                            <span>2</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a>
-                            <span>3</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a>
-                            <span>4</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a>
-                            <span>5</span>
-                        </a>
-                    </li>
+                    </li>)}
                 </ul>
             </div>
         </div>
