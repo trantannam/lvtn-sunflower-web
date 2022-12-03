@@ -4,7 +4,7 @@ import { GiShoppingCart } from "react-icons/gi";
 import { FaSearch } from "react-icons/fa";
 import "./header.css";
 
-function Header() {
+function Header(props) {
 
 
 
@@ -31,19 +31,10 @@ function Header() {
                     <ul className="box-group pull-right">
                         <li>
                             <div className="group-item">
-                                <GrMap className="icon" />
-                                <div className="item-text">
-                                    <a>Giao đến</a>
-                                    <span>Cần Thơ</span>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div className="group-item">
                                 <GrPhone className="icon" />
                                 <div className="item-text">
-                                    <a>Giao đến</a>
-                                    <span>Cần Thơ</span>
+                                    <a>Liên hệ</a>
+                                    <span>0982 461 654</span>
                                 </div>
                             </div>
                         </li>

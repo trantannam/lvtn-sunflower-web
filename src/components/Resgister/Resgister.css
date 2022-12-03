@@ -1,17 +1,15 @@
-.popup {
+.resgister-popup {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100vh;
     background-color: rgba(0, 0, 0, 0.3);
-
     z-index: 10500;
     display: flex;
-    /* outline: 0; */
 }
 
-.popup-dialog {
+.resgister-dialog {
     position: relative;
     padding: 10px 0;
     margin: 30px auto;
@@ -22,6 +20,16 @@
     background-color: #FFF;
 }
 
+.showpass{
+    position: absolute;
+    right: 30px;
+    margin-top: 20px;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 2;
+}
+
+
 .header{
     padding: 5px 10px;
 }
@@ -31,16 +39,16 @@
     font-size: 1.5rem;
 }
 
-.popup .form-group{
-    padding: 15px 20px;
+.resgister-popup .input-group{
+    padding: 10px 20px 0 20px;
 }
 
-.form-group p{
-    font-size: 20px;
+.input-group p{
+    font-size: 18px;
     font-weight: 800;
 }
 
-.popup .form-group .form-control{
+.resgister-popup .input-group .form-control{
     width: 100%;
     margin: 10px 0;  
     border-radius: 6px;
@@ -51,12 +59,8 @@
     transition: border-color .15s ease-in-out;
 }
 
-.show-passwork{
-    position: absolute;
-    right: 30px;
-    margin-top: 20px;
-    font-size: 20px;
-    cursor: pointer;
+.resgister-popup .input-group .radio-button{
+    margin: 0 10px 0 10px;
 }
 
 input:focus{

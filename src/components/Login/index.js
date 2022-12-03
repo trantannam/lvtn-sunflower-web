@@ -1,37 +1,29 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom"
-import request from "../../utils/request";
-import {useDispatch, useSelector} from "react-redux";
-import "./LoginPopup.css"
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import "./LoginPopup.css";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { loginUser } from "../../redux/apiRequest";
 
 const LoginPopup = (props) => {
 
     const [phoneNumber, setPhoneNumber] = useState("");
     const [passWord, setPassWord] = useState("");
-    const [info, setInfo] = useState([]);
+    const [showPass, setShowPass] = useState(false);
     const dispatch = useDispatch();
     const naviagte = useNavigate();
-    const user = useSelector((state)=>state.auth.login.currentUser);
 
-    // const authCustomer = async () => {
-    //     await request.post("/customer/login", { phonenumber: phoneNumber, password: passWord })
-    //         .then(res => {
-    //             setInfo(res.data)
-    //             console.log("res", res);
-    //         })
-    //         .catch((err) => {
-    //             console.error(err)
-    //         })
-    // }
 
     const handleLogin = async () => {
         if (passWord !== "" && phoneNumber !== "") {
             await loginUser({ phonenumber: phoneNumber, password: passWord }, dispatch, naviagte);
-            // console.log("user", user)
-            // props.info(user);
             props.closePopup(false);
         } else (alert('ban chua nhap pass hay sdt'))
+    }
+
+    const showResgisterPopup = () => {
+        props.closePopup(false);
+        props.setShowResgister(true);
     }
 
     return props.showPopup ? (
@@ -47,7 +39,10 @@ const LoginPopup = (props) => {
                 </div>
                 <div className="form-group">
                     <p>Mật khẩu</p>
-                    <input className="form-control" placeholder="Mật khẩu" onChange={(e) => setPassWord(e.target.value)} />
+                    <input type={showPass ? "text" : "password"} className="form-control" placeholder="Mật khẩu" onChange={(e) => setPassWord(e.target.value)} />
+                    {showPass ?
+                        <AiOutlineEye className="show-passwork" onClick={()=>setShowPass(false)}/> :
+                        <AiOutlineEyeInvisible className="show-passwork" onClick={()=>setShowPass(true)}/>}
                 </div>
                 <div className="form-group checkbox-group">
                     <div className="remember-me">
@@ -56,7 +51,25 @@ const LoginPopup = (props) => {
                     <div><Link className="forgot-password">Quên mật khẩu?</Link></div>
                 </div>
                 <div className="form-group login-button"><button className="btn btn-login" onClick={() => handleLogin()}>Đăng nhập</button></div>
-                <div className="form-group login-button"><p>Bạn chưa có tài khoản?<Link>Tạo mới</Link></p></div>
+                <div className="form-group login-button">
+                    <p>Bạn chưa có tài khoản?
+                        <button
+                            style={{
+                                background: "none",
+                                border: "none",
+                                color: "coral",
+                                fontWeight: 700,
+                                fontSize: "1rem",
+                                font: "inherit",
+                                marginLeft: "5px",
+                                cursor: "pointer"
+                            }}
+                            onClick={() => showResgisterPopup()}
+                        >
+                            Tạo mới
+                        </button>
+                    </p>
+                </div>
             </div>
         </div>
     ) : ""

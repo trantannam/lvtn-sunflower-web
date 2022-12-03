@@ -150,6 +150,7 @@
 .cart-list .body-list .body-item.total button {
     float: right;
     margin-top: 8px;
+    cursor: pointer;
     border: none;
     outline: 0;
     background: 0 0;

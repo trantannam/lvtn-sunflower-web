@@ -1,39 +1,39 @@
-// import './App.css';
-// import {GrMap, GrPhone} from "react-icons/gr";
-// import {GiShoppingCart} from "react-icons/gi";
-// import {GoThreeBars} from "react-icons/go";
-// import {BiPlus} from "react-icons/bi";
-// import demo from "./img/18_800x800.jpg";
+import 'react-notifications/lib/notifications.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { publicRoutes } from './routes';
 import { DefaultLayout } from './components/Layout';
-import { Fragment } from 'react';
+import { Fragment, useState } from 'react';
+import { NotificationContainer } from "react-notifications";
 
 function App() {
+
   return (
-    <Router>
-      <div className='App'>
-        <Routes>
-          {publicRoutes.map((route, index) => {
+    <>
+        <Router>
+          <div className='App'>
+            <Routes>
+              {publicRoutes.map((route, index) => {
 
-            const Page = route.component
+                const Page = route.component
 
-            let Layout = DefaultLayout
+                let Layout = DefaultLayout
 
-            if (route.layout) {
-              Layout = route.layout;
-            } else if (route.layout === null) {
-              Layout = Fragment
-            }
-            return <Route key={index} path={route.path} element={
-              <Layout>
-                <Page />
-              </Layout>
-            } />
-          })}
-        </Routes>
-      </div>
-    </Router>
+                if (route.layout) {
+                  Layout = route.layout;
+                } else if (route.layout === null) {
+                  Layout = Fragment
+                }
+                return <Route key={index} path={route.path} element={
+                  <Layout >
+                    <Page />
+                  </Layout>
+                } />
+              })}
+            </Routes>
+          </div>
+        </Router>
+      <NotificationContainer />
+    </>
   );
 }
 

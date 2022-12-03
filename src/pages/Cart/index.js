@@ -1,28 +1,106 @@
 import { Link } from "react-router-dom";
 import { GrMap } from "react-icons/gr";
 import "./Cart.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import request from "../../utils/request";
+import { apiURL } from "../../utils/callAPI";
+import { AiOutlineClose } from "react-icons/ai";
 
 function Cart() {
-    const [amount, setAmount] = useState({ value: 1 });
+
+    const userInfo = useSelector((state) => state.auth.login.currentUser);
+    const [cartID, setCartID] = useState(null);
+    const [listProduct, setListProduct] = useState([]);
+
+    let temp = 0;
+    const [total, setTotal] = useState(0);
 
     const handleOnChance = (e) => {
-        if(e!==NaN){
-            setAmount({ value: parseInt(e) });
+        // if (e !== NaN) {
+        //     setAmount({ value: parseInt(e) });
+        // }
+    }
+
+    const handlePLus = async (index) => {
+
+        const plusArr = [...listProduct];
+
+        plusArr[index].quantity = plusArr[index].quantity + 1;
+
+        await request.post("/cart/updatecart", {
+            _id: cartID,
+            product: plusArr
+        }).then(res => {
+            setListProduct(res.data.cart.product);
+            console.log("data",res.data.cart.product)
+        })
+    }
+
+    const handleMinus = async (index) => {
+
+        const minusArr = [...listProduct];
+
+        minusArr[index].quantity = minusArr[index].quantity - 1;
+
+        await request.post("/cart/updatecart", {
+            _id: cartID,
+            product: minusArr
+        }).then(res => {
+            setListProduct(res.data.cart.product);
+        })
+    }
+
+    const getCartByID = async () => {
+        try {
+            await request.post("/cart/getcart", { customerID: userInfo._id })
+                .then(res => {
+                    if (res.data.success) {
+                        setListProduct(res.data.listCart.product);
+                        setCartID(res.data.listCart._id);
+                        res.data.listCart.product.map(t => {
+                            temp += (t.productID.price * t.quantity);
+                            setTotal(temp);
+                            console.log("total", total)
+                        })
+                    } else {
+
+                    }
+                    // console.log("getcart", res.data.listCart.product)
+                })
+        } catch (error) {
+            console.log(error);
         }
     }
 
-    const handlePLus = () => {
-        if (amount.value < 99) {
-            setAmount({ value: amount.value + 1 });
-        }
+    const handleDeleteProductCart = async (productID) => {
+
+        await request.post("/cart/deletecart", {
+            _id: cartID,
+            product: {
+                _id: productID
+            }
+        }).then(res => {
+            alert("Xoa thanh cong", res);
+            setListProduct(res.data.cart.product)
+            console.log(res.data);
+        })
+    }
+    
+    const calcTotal=()=>{
+        listProduct.map(item => {
+            temp += (item.productID.price * item.quantity);
+            setTotal(temp);
+        })
     }
 
-    const handleMinus = () => {
-        if (amount.value > 1) {
-            setAmount({ value: amount.value - 1 });
-        }
-    }
+    useEffect(()=>{calcTotal()},[listProduct]);
+
+    useEffect(() => 
+        {getCartByID()}
+    , [])
+
+    document.title = "Giỏ hàng"
 
     return (
         <div className="cart-box" id="cart-page">
@@ -34,44 +112,54 @@ function Cart() {
                         <div className="header-item">Số lượng</div>
                         <div className="header-item">Tổng cộng</div>
                     </div>
-                    <div className="body-list">
-                        <div className="body-item product-info">
-                            <div className="cart-product">
-                                <div className="p-image">
-                                    <img src="https://tools.dalathasfarm.com/public/products/ADF3/ADF39AP262/AA0_5550wm_800x800.jpg" alt="Bình Hoa Niềm Vui Nhỏ Bé 262" />
-                                </div>
-                                <div className="p-info">
-                                    <Link className="p-name" to={"/"}>product name</Link>
-                                    {/* <a className="p-name" href="https://shop.dalathasfarm.com/a5/binh-hoa-niem-vui-nho-be-262-p1452.html" title="Bình Hoa Niềm Vui Nhỏ Bé 262">product name</a> */}
-                                    {/* button flower love */}
-                                    {/* <a className="wishlist" data-toggle="modal" data-keyboard="false" data-backdrop="static" data-target="#loginModal" title="Yêu thích"><img width="20" src="https://shop.dalathasfarm.com/public/dalathasfarm/images/like-2.png"/>Yêu thích</a> */}
+                    {listProduct && listProduct.map((item, index) =>
+                        <div key={index} className="body-list">
+                            <div className="body-item product-info">
+                                <div className="cart-product">
+                                    <div className="p-image">
+                                        <img src={apiURL + `${item.productID.image}`} alt="Bình Hoa Niềm Vui Nhỏ Bé 262" />
+                                    </div>
+                                    <div className="p-info">
+                                        <Link className="p-name" to={"/"}>{item.productID.productname}</Link>
+                                        {/* <a className="p-name" href="https://shop.dalathasfarm.com/a5/binh-hoa-niem-vui-nho-be-262-p1452.html" title="Bình Hoa Niềm Vui Nhỏ Bé 262">product name</a> */}
+                                        {/* button flower love */}
+                                        {/* <a className="wishlist" data-toggle="modal" data-keyboard="false" data-backdrop="static" data-target="#loginModal" title="Yêu thích"><img width="20" src="https://shop.dalathasfarm.com/public/dalathasfarm/images/like-2.png"/>Yêu thích</a> */}
 
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div className="body-item price" data-price="500000">
-                            <span>999999 d/binh</span>
-                        </div>
-                        <div className="body-item quantity">
-                            <div className="input-group bootstrap-touchspin bootstrap-touchspin-injected">
-                                {/* Product amount */}
-                                <span className="input-group-btn input-group-prepend">
-                                    <button className="btn btn-primary bootstrap-touchspin-down" onClick={() => handleMinus()} type="button">-</button>
-                                </span>
-                                <input className="quantity-input form-control" onChange={(e) => handleOnChance(e.target.value)} type={"text"} inputMode={"numberic"} autocomplete={"off"} pattern="\d*" name={"quantity"} value={amount.value} min={0} max={99} />
-                                <span className="input-group-btn input-group-append">
-                                    <button className="btn btn-primary bootstrap-touchspin-up" onClick={() => handlePLus()} type="button">+</button>
-                                </span>
-
+                            <div className="body-item price">
+                                <span>{item.productID.price.toLocaleString()} đ/ Bó</span>
                             </div>
-                            {/* <input name="item_qty_current" value={1} type="hidden" /> */}
+                            <div className="body-item quantity">
+                                <div className="input-group bootstrap-touchspin bootstrap-touchspin-injected">
+                                    {/* Product amount */}
+                                    <span className="input-group-btn input-group-prepend">
+                                        <button className="btn btn-primary bootstrap-touchspin-down" onClick={() => handleMinus(index)} type="button">-</button>
+                                    </span>
+                                    <input className="quantity-input form-control"
+                                        onChange={(e) => handleOnChance(e.target.value)}
+                                        type={"text"}
+                                        // inputMode={"numberic"}
+                                        // autoComplete={"off"}
+                                        pattern="\d*"
+                                        name={"quantity"}
+                                        value={item.quantity} min={0} max={99} />
+                                    <span className="input-group-btn input-group-append">
+                                        <button className="btn btn-primary bootstrap-touchspin-up" onClick={(e) => handlePLus(index)} type="button">+</button>
+                                    </span>
+
+                                </div>
+                                {/* <input name="item_qty_current" value={1} type="hidden" /> */}
+                            </div>
+                            <div className="body-item total">
+                                <span>{(item.productID.price * item.quantity).toLocaleString()} đ</span>
+                                <button type="button" onClick={() => handleDeleteProductCart(item._id)}>
+                                    <AiOutlineClose style={{ fontSize: "20px", color: "red" }} />
+                                </button>
+                            </div>
                         </div>
-                        <div className="body-item total"><span>999999999999d</span>
-                            <button type="button">
-                                <img width="20" src="https://shop.dalathasfarm.com/public/dalathasfarm/images/close.png" />
-                            </button>
-                        </div>
-                    </div>
+                    )}
                 </div>
             </div>
             <div className="temp-price">
@@ -83,7 +171,7 @@ function Cart() {
                         </div>
                         <div className="address py-3">
                             <GrMap className="icon-map" />
-                            <span className="current-address" id="current_address" data-city="TP. Hồ Chí Minh">Quận 1, TP. Hồ Chí Minh</span>
+                            <span className="current-address" id="current_address" data-city="TP. Hồ Chí Minh">{"Bạn chưa có địa chỉ nhận hàng."}</span>
                         </div>
                     </div>
                 </div>
@@ -95,14 +183,14 @@ function Cart() {
                     <div className="order-cart-content">
                         <div className="order-cart-content-item">
                             <p>Tạm tính</p>
-                            <p>5.000.000đ</p>
+                            <p>{total.toLocaleString()} đ</p>
                         </div>
                         <div className="order-cart-content-item">
                             <p>Phí giao hàng tạm tính:</p><p>Miễn phí</p>
                         </div>
                         <br />
                         <div className="order-cart-content-item cart-all-total">
-                            <p>Tổng cộng</p><p>5.000.000đ</p>
+                            <p>Tổng cộng</p><p>{total.toLocaleString()} đ</p>
                         </div>
                         <small className="text-right">Giá đã bao gồm VAT</small>
                     </div>
@@ -111,7 +199,6 @@ function Cart() {
                     <a className="btn btn-buy btn-confirm" href="https://shop.dalathasfarm.com/shopcart/checkout.html" title="CONFIRM CART">TIẾP TỤC</a>
                 </div>
             </div>
-
         </div>
     )
 }

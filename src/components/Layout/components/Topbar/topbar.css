@@ -39,6 +39,7 @@
 #topbar .topbar_menu li{
   list-style-type: none;
   display: inline-block;
+  cursor: pointer;
 }
 
 #topbar .topbar_menu li a{
@@ -59,4 +60,32 @@
   font-size: 18px;
   width: 18px;
   vertical-align: middle;
+}
+
+.user-menu{   
+  display: grid;
+  right: 200px;
+  width: max-content;
+  height: auto;
+  background-color: #fff;
+  z-index: 1000;
+  border-radius: 5px;
+  box-shadow: 0 6px 12px rgb(0 0 0 / 18%);
+}
+
+.user-menu .child-item{
+  padding: 10px 18px;
+  display: inline-flex !important;
+  float: left;
+}
+
+.child-item:hover{
+  background-color: rgb(255, 215, 181);
+  outline: none;
+}
+
+.user-menu .child-item .icon{
+  margin-right: 9px;
+  color: #000;
+  font-size: 18px;
 }

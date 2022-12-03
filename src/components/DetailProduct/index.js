@@ -1,20 +1,23 @@
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import request from "../../utils/request";
 import "./DetailProduct.css";
 import Slider from "react-slick";
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 import { apiURL } from "../../utils/callAPI";
+import { useNavigate } from "react-router-dom";
 
 function DetailProduct() {
 
     const [item, setItem] = useState([]);
     const [amount, setAmount] = useState({ value: 1 });
+    const infoCustomer = useSelector((state) => state.auth.login.currentUser);
+    const navigate = useNavigate();
 
     const getInfoProduct = () => {
-        request.get(`/product/${window.location.search.slice(4,)}`)
+        request.get(`/product/${window.location.href.split("/")[4]}`)
             .then(res => {
-                console.log(res.data.result);
                 setItem(res.data.result)
             })
     }
@@ -27,14 +30,14 @@ function DetailProduct() {
     const handlePLus = () => {
         if (amount.value < 99) {
             setAmount({ value: amount.value + 1 });
-            console.log('Plus', amount.value+1)
+            console.log('Plus', amount.value + 1)
         }
     }
 
     const handleMinus = () => {
-        if (amount.value>1) {
+        if (amount.value > 1) {
             setAmount({ value: amount.value - 1 })
-            console.log('Minus', amount.value-1)
+            console.log('Minus', amount.value - 1)
         }
     }
 
@@ -51,6 +54,40 @@ function DetailProduct() {
         arrows: false,
         fade: true
     };
+
+    document.title = `${item.productname}`
+
+    function getCart(customerID, productID) {
+        request.post("/cart/getcart", { customerID: customerID })
+            .then(res => {
+                if (res.data.success === false) {
+                    request.post("/cart/createcart",
+                        {
+                            customerID: customerID,
+                            product: {
+                                productID: productID,
+                                quantity: amount.value
+                            }
+                        }).then(res => {
+                            navigate("/cart");
+                            console.log("createCart: ", res)
+                        })
+                } else {
+                    request.post("/cart/addcart", {
+                        _id: res.data.listCart._id,
+                        product: {
+                            productID: productID,
+                            quantity: amount.value
+                        }
+                    }).then(res => {
+                        navigate("/cart");
+
+                        console.log("addCart: ", res);
+                    })
+                }
+                console.log("getCart: ", res)
+            })
+    }
 
     return (
         <div className="container">
@@ -83,11 +120,11 @@ function DetailProduct() {
                         </div>
                         <hr />
                         <p>Giá bán tại shop: </p>
-                        <div className="price">{item.price}đ / Bó</div>
+                        <div className="price">{item.price>0 ? item.price.toLocaleString(): 0} đ / Bó</div>
                         <div className="btn-box">
                             <button className="hidden toggle-popupCart" type="button"></button>
                             <button className="btn btn-buy" type="button">Mua ngay</button>
-                            <button className="btn btn-add-to-cart" type="button" href="">Thêm vào giỏ</button>
+                            <button className="btn btn-add-to-cart" type="button" onClick={() => getCart(infoCustomer._id, item._id)}>Thêm vào giỏ</button>
                         </div>
                     </div>
                 </div>

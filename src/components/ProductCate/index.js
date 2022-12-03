@@ -25,6 +25,8 @@ function ProductCate() {
             })
     }
 
+    console.log()
+
     useEffect(() => { getProduct(); }, [])
     // console.log('product',productCategrory)
 
@@ -39,7 +41,7 @@ function ProductCate() {
                         <div key={index} className="col-product-item">
                             <div className="product-item">
                                 <div className="product-img">
-                                    <a href={`/detailproduct?id=${product._id}`}>
+                                    <a href={`/detailproduct/${product._id}`}>
                                         <img src={`${apiURL}` + product.image} alt='' />
                                     </a>
                                 </div>
@@ -51,7 +53,7 @@ function ProductCate() {
                                 <div className="product-button-wrapper">
                                     <div className="product-price">
                                         <b>
-                                            <span className="notranslate">Giá: {product.price} VND</span>
+                                            <span className="notranslate">Giá: {product.price.toLocaleString()} đ</span>
                                         </b>
                                     </div>
                                 </div>

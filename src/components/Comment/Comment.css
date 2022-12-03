@@ -1,0 +1,99 @@
+
+/* send comment box */
+.comment-product{
+    border: 1px solid #efefef;
+    border-radius: 8px;
+    padding: 0 2rem;
+    margin-left: 1rem;
+    width: 100%;
+    height: 1000px;
+}
+
+.comment-product .comment-group{
+    position: relative;
+    border: 1px solid #c5c5c5;
+    border-radius: 8px;
+    width: 60%;
+    overflow: visible;
+}
+
+.comment-group .content{
+    width: 100%;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 1px solid #c5c5c5;
+    height: 8rem;
+    padding: 10px 0 0 10px;
+    font: inherit;
+    font-size: 1rem;
+    /* border-top-left-radius: 8px;
+    border-top-right-radius: 8px; */
+}
+
+.content:focus{
+    outline: none;
+}
+
+.comment-group .button-group{
+    display: block;
+    overflow: hidden;
+    align-items: flex-end;
+}
+
+.comment-group .button-group .send {
+    float: right;
+    margin: 0 8px 4px 0;
+    color: #fff;
+    background-color: blue;
+    padding: 10px 25px;
+    border: none;
+    font-size: 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.comment-product>h2{
+    padding: 2rem 0 1rem 0;
+}
+
+/* comments */
+.comments{
+    margin-top: 2rem;
+    position: relative;
+}
+
+.comments .header-comment{
+    display: flex;
+}
+
+.header-comment .ava-customer{
+    padding: 0.3rem 0.6rem;
+    background-color: rgba(255, 127, 80);
+    text-transform: uppercase;
+}
+
+.header-comment .cus-name{
+    padding: 0.4rem 0.6rem;
+    font-size: 18px;
+}
+
+.comments .content-comment{
+    margin: 1rem 0;
+}
+
+.reply{
+    display: flex;
+}
+
+.reply .btn-reply{
+    background: none;
+    color: rgb(0, 0, 255);
+    border: none;
+    cursor: pointer;
+    padding-right: 6px;
+}
+
+.reply .reply-time{
+    color: #858585;
+}
