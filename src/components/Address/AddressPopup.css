@@ -1,0 +1,132 @@
+.popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.3);
+
+    z-index: 10500;
+    display: flex;
+    /* outline: 0; */
+}
+
+.popup-dialog {
+    position: relative;
+    padding: 10px 0;
+    margin: 30px auto;
+    width: 100%;
+    height: max-content;
+    max-width: 600px;
+    border-radius: 0.5rem;
+    background-color: #FFF;
+}
+
+.header{
+    padding: 5px 10px;
+}
+
+.header h4{
+    color: #ff7f50;
+    font-size: 1.5rem;
+}
+
+.popup .form-group{
+    padding: 15px 20px;
+}
+
+.form-group p{
+    font-size: 20px;
+    font-weight: 800;
+}
+
+.popup .form-group .form-control{
+    width: 100%;
+    margin: 10px 0;  
+    border-radius: 6px;
+    height: 2.5rem;
+    padding: 10px;
+    border: 1px solid #ccc;
+    background-color: #FFF;
+    transition: border-color .15s ease-in-out;
+}
+
+.show-passwork{
+    position: absolute;
+    right: 30px;
+    margin-top: 20px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+input:focus{
+    outline: none;
+    box-shadow: 0 0 2px #0041bb;
+}
+
+.header .close {
+    margin-top: -2px;
+}
+button.close {
+    -webkit-appearance: none;
+    padding: 0;
+    cursor: pointer;
+    background: 0 0;
+    border: 0;
+}
+
+.close {
+    float: right;
+    font-size: 21px;
+    font-weight: 700;
+    line-height: 1;
+    color: #000;
+    text-shadow: 0 1px 0 #fff;
+    opacity: .2;
+}
+
+.checkbox-group .remember-me{
+    width: 50%;
+    position: relative;
+    float: left;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15
+}
+
+.check{
+    display: inline-block;
+    position: relative;
+    padding-left: 6px;
+    text-align: left;
+    cursor: pointer;
+    font-weight: 400;
+}
+
+.check>input{
+    position: relative;
+    margin-right: 25px;
+}
+
+input[type=checkbox] {
+    transform: scale(1.5);
+}
+
+.forgot-password{
+    float: right;
+    color: coral;
+}
+
+.btn-next{
+    border-radius: 30px !important;
+    text-align: center;
+    background: #f58831;
+    width: fit-content;
+    color: #fff;
+    font-size: 18px !important;
+    text-transform: uppercase;
+    font-weight: 700 !important;
+    margin: 10px auto;
+    padding: 10px 30px;
+    outline: 0;
+}

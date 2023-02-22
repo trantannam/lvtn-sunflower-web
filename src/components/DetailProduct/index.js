@@ -7,8 +7,11 @@ import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 import { apiURL } from "../../utils/callAPI";
 import { useNavigate } from "react-router-dom";
+import AddressPopup from "../Address";
 
 function DetailProduct() {
+
+    const [showAddress, setShowAddress] = useState();
 
     const [item, setItem] = useState([]);
     const [amount, setAmount] = useState({ value: 1 });
@@ -21,6 +24,8 @@ function DetailProduct() {
                 setItem(res.data.result)
             })
     }
+
+    
 
     const handleOnChance = (e) => {
         setAmount({ value: parseInt(e) });
@@ -90,6 +95,11 @@ function DetailProduct() {
     }
 
     return (
+        <>
+        <AddressPopup 
+            show={showAddress}
+            close= {setShowAddress}
+        />
         <div className="container">
             <div className="top-detail-product">
                 <div className="row">
@@ -106,7 +116,7 @@ function DetailProduct() {
                         <hr />
                         <div className="product-info quantity">
                             <p>Số lượng</p>
-                            <p>
+                            
                                 <div className="input-group">
                                     <span className="input-group-btn input-group-prepend">
                                         <button className="btn btn-primary" onClick={() => handleMinus()} type="button">-</button>
@@ -116,20 +126,26 @@ function DetailProduct() {
                                         <button className="btn btn-primary" onClick={() => handlePLus()} type="button">+</button>
                                     </span>
                                 </div>
-                            </p>
+
                         </div>
                         <hr />
                         <p>Giá bán tại shop: </p>
-                        <div className="price">{item.price>0 ? item.price.toLocaleString(): 0} đ / Bó</div>
+                        <div className="price">{item.price > 0 ? item.price.toLocaleString() : 0} đ / Bó</div>
                         <div className="btn-box">
                             <button className="hidden toggle-popupCart" type="button"></button>
-                            <button className="btn btn-buy" type="button">Mua ngay</button>
+                            <button className="btn btn-buy"
+                                onClick={()=>
+                                    setShowAddress(true)
+                                }
+                                type="button"
+                            >Mua ngay</button>
                             <button className="btn btn-add-to-cart" type="button" onClick={() => getCart(infoCustomer._id, item._id)}>Thêm vào giỏ</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        </>
     );
 }
 
