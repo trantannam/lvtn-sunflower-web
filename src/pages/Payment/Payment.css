@@ -1,0 +1,131 @@
+.left{
+    width: 70%;
+    float: left;
+}
+
+.right{
+    width: 28%;
+    float: left;
+}
+
+.info-order{
+    width: 100%;
+    /* background-color: antiquewhite; */
+    float: left;
+    padding: 20px;
+    border-radius: 8px;
+    border:1px solid rgb(200, 200, 200);
+    margin-top: 20px;
+}
+
+.title{
+    font-weight: 800;
+    font-size: 20px;
+    color:chocolate;
+    padding-bottom: 10px;
+}
+
+.child{
+    padding: 0px;
+    color: rgb(82, 74, 74);
+}
+
+.info-payment{
+    width: 100%;
+    float: left;
+    border: 1px solid rgb(200, 200, 200);
+    margin: 20px 0 0 20px;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.info-cus{
+    width: 100%;
+    height: fit-content;
+
+}
+
+.info-diliver{
+    width: 100%;
+    height: fit-content;
+    position: relative;
+}
+
+.in-group{
+    float: left;
+    width: 50%;
+    padding-bottom: 10px;
+}
+
+.input-t{
+    width: 96%;
+    border-color: darkgray;
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid darkgray;
+    margin-top: 5px;
+    border-radius: 4px;
+}
+
+.child{
+    margin-right: 19px;
+    margin-top: 15px;
+    float: left;
+    width: 47%;
+}
+
+.last{
+    margin-top: 15px;
+}
+
+.radio-button{
+    width: 15px;
+    height: 15px;
+    margin: 10px;
+    
+}
+
+.label-radio{
+    float: left;
+    
+}
+
+.info-product{
+    width: 100%;
+    height: max-content;
+    display: flex;
+    margin-top: 10px;
+}
+
+.img-item{
+    flex: 0 0 25%;
+}
+
+.img-item img{
+    width: 80%;
+    margin-top: -5px;
+}
+
+.name-item{
+    flex: 0 0 50%; 
+    float: left;
+    margin-top: 10px;
+}
+
+.price-item{
+    flex: 0 0 25%;
+    text-align: right;
+    margin-top: 10px;
+
+}
+
+.add{
+    margin-top: 20px;
+    width: 70%;
+}
+
+.btn-add{
+    background-color:rgb(46, 112, 255);
+    margin: 0 30px;
+    font-weight: 700 !important;
+}

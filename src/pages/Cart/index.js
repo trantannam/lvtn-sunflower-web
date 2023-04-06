@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { GrMap } from "react-icons/gr";
 import "./Cart.css";
 import { useEffect, useState } from "react";
@@ -12,6 +12,7 @@ function Cart() {
     const userInfo = useSelector((state) => state.auth.login.currentUser);
     const [cartID, setCartID] = useState(null);
     const [listProduct, setListProduct] = useState([]);
+    const navigate = useNavigate();
 
     let temp = 0;
     const [total, setTotal] = useState(0);
@@ -92,6 +93,10 @@ function Cart() {
             temp += (item.productID.price * item.quantity);
             setTotal(temp);
         })
+    }
+
+    const pay = () =>{
+        navigate("/payment")
     }
 
     useEffect(()=>{calcTotal()},[listProduct]);
@@ -196,7 +201,7 @@ function Cart() {
                     </div>
                 </div>
                 <div className="btn-box">
-                    <a className="btn btn-buy btn-confirm" href="https://shop.dalathasfarm.com/shopcart/checkout.html" title="CONFIRM CART">TIẾP TỤC</a>
+                    <a className="btn btn-buy btn-confirm" onClick={()=>pay()}>TIẾP TỤC</a>
                 </div>
             </div>
         </div>
