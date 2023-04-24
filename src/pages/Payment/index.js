@@ -1,13 +1,10 @@
-import axios from "axios";
-import { Fragment, useEffect, useState } from "react";
-import { render } from "react-dom";
+import {useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import {useNavigate } from "react-router-dom";
 import AddressPopup from "../../components/Address";
 import { apiURL } from "../../utils/callAPI";
 import request from "../../utils/request";
 import "./Payment.css";
-import {publicIpv4} from "public-ip";
 
 function Payment() {
 
@@ -22,6 +19,7 @@ function Payment() {
     const [showAPopup, setShowAPopup] = useState(false);
     const [total, setTotal] = useState(0);
     const [ship, setShip] = useState(0);
+    const [vnp_Url, setVnp_url] = useState('/')
     const navigate = useNavigate();
 
 
@@ -46,89 +44,37 @@ function Payment() {
         }
     }
 
-    const temporaryPay=()=>{
+    const temporaryPay = () => {
         let temp = 0;
-        products.map((item)=>{
-            temp= temp + item.quantity*item.productID.price;
+        products.map((item) => {
+            temp = temp + item.quantity * item.productID.price;
             // console.log("price", window)
         });
-        
+
         setTotal(temp);
     }
-    const getTimeNow=()=>{
-        let d = new Date();
-        let yyyy = d.getFullYear().toString();
-        let MM = d.getMonth() + 1;
-        let dd = d.getDate();
-        let hh = d.getHours();
-        let mm = d.getMinutes();
-        let ss = d.getSeconds();
-        if (MM<10){
-            MM = "0"+MM;
-        }
-        if (dd < 10){
-            dd = "0" +dd;
-        }
-        if (hh < 10){
-            hh = "0" +hh;
-        }
-        if (mm < 10){
-            mm = "0" +mm;
-        }
-        if (ss < 10){
-            ss = "0" +ss;
-        }
-        let date = yyyy+MM+dd+hh+mm+ss;
-        console.log("date",date)
-        return(date);
-    }
-
-    const expireDate=()=>{
-        let d = new Date();
+    
+    useEffect(() => temporaryPay(), [products])
+    
+    const orderProduct = async () => {
         
-        let yyyy = d.getFullYear.toString();
-        let MM = d.getMonth() + 1;
-        let dd = d.getDate();
-        let hh = d.getHours();
-        let mm = d.getMinutes();
-        let ss = d.getSeconds();
-        if (MM<10){
-            MM = "0"+MM;
+        try {
+            await request.post("/payment/create-url", {
+                total: total,
+                bankCode: "NCB",
+                description: "thanh toan hoa don"
+            })
+                .then(res => {
+                if(res.data.success === true){
+                    console.log("res.data ",res.data);
+                    setVnp_url(res.data.data);
+                }
+                })
+        } catch (error) {
+            console.log(error);
         }
-        if (dd < 10){
-            dd = "0" +dd;
-        }
-        if (hh < 10){
-            hh = "0" +hh;
-        }
-        if (mm < 10){
-            mm = "0" +mm;
-        }
-        if (ss < 10){
-            ss = "0" +ss;
-        }
-        let date = yyyy+MM+dd+hh+mm+ss;
-        console.log("date",date)
-        return(date);
-    }
-    useEffect(()=>temporaryPay(), [products])
-    //"C:\Program Files\Google\Chrome\Application\chrome.exe" --disable-web-security --disable-gpu --user-data-dir=~/chromeTemp
-    //https://sandbox.vnpayment.vn/paymentv2/vpcpay.html
-    //?vnp_Amount=1806000
-    //&vnp_Command=pay
-    //&vnp_CreateDate=20210801153333
-    //&vnp_CurrCode=VND
-    //&vnp_IpAddr=127.0.0.1
-    //&vnp_Locale=vn
-    //&vnp_OrderInfo=Thanh+toan+don+hang+%3A5
-    //&vnp_OrderType=other
-    //&vnp_ReturnUrl=https%3A%2F%2Fdomainmerchant.vn%2FReturnUrl
-    //&vnp_TmnCode=DEMOV210
-    //&vnp_TxnRef=5
-    //&vnp_Version=2.1.0
-    //&vnp_SecureHash=3e0d61a0c0534b2e36680b3f7277743e8784cc4e1d68fa7d276e79c23be7d6318d338b477910a27992f5057bb1582bd44bd82ae8009ffaf6d141219218625c42 
-    const orderProduct = async() => {
-        window.location=`https://sandbox.vnpayment.vn/paymentv2/vpcpay.html?vnp_Amount=${(total+ship)*100}&vnp_Command=pay&vnp_CreateDate=${getTimeNow()}&vnp_CurrCode=VND&vnp_IpAddr=127.0.0.1&vnp_Locale=vn&vnp_OrderInfo=Thanh toan don hang&vnp_OrderType=other&vnp_ReturnUrl=http://localhost:3000/payment&vnp_TmnCode=08T2TCE9&vnp_TxnRef=5&vnp_Version=2.1.0&vnp_SecureHash=MGOFSAFMWYRAPNCLNEXFUYYRQXZFXOCR&vnp_ExpireDate=${expireDate()}`;
+        
+        window.open(vnp_Url, "_blank","")
     }
 
     useEffect(() => {
@@ -273,10 +219,10 @@ function Payment() {
                         <hr style={{ border: "1px solid rgb(200, 200, 200)" }} />
                         <div className="info-product">
                             <div className="name-item">
-                            Tổng cộng
+                                Tổng cộng
                             </div>
                             <div className="price-item">
-                                {(total+ ship).toLocaleString()} đ
+                                {(total + ship).toLocaleString()} đ
                             </div>
                         </div>
                     </div>
