@@ -9,16 +9,12 @@ import { apiURL } from "../../utils/callAPI";
 
 function ProductCate() {
 
-    // const [pro, setPro] = useState([])
     const [productCategrory, setProductCategrory] = useState([]);
-    // const [addItem, setAddItem] = useState(false);
-    // const [showButton, setShowButton] = useState();
 
     async function getProduct() {
         await request.get(`/product`)
             .then(function (res) {
                 setProductCategrory(res.data.products);
-                // console.log('loi truy cap', res.data)
             })
             .catch((err) => {
                 console.error('loi truy cap', err)
@@ -28,7 +24,6 @@ function ProductCate() {
     console.log()
 
     useEffect(() => { getProduct(); }, [])
-    // console.log('product',productCategrory)
 
     return (
         <div className="container">
@@ -65,24 +60,5 @@ function ProductCate() {
         </div>
     );
 }
-
-// {!addItem ?
-//     <div className="btn-addcart-wrapper">
-//         <button className="btn btn-addcart" type='button' onClick={() => handleClick(product, index)}>
-//             <BiPlus className="__icon" />
-//             <span className="__text">Mua Ngay</span>
-//         </button>
-//     </div>
-//     :
-//     <div className="btn-addcart-quantity-wrapper">
-//         <button className="btn __item qty-icon">
-//             <GrFormSubtract className="btn-addcart-quantity-wrapper icon" />
-//         </button>
-//         <input className="__item qty-input" type="text" />
-//         <button className="btn __item qty-icon green">
-//             <GrFormAdd className="btn-addcart-quantity-wrapper icon" />
-//         </button>
-//     </div>
-// }
 
 export default ProductCate;

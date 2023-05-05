@@ -49,6 +49,7 @@
     width: 100%;
     height: fit-content;
     position: relative;
+    display: inline-block;
 }
 
 .in-group{
@@ -71,7 +72,7 @@
     margin-right: 19px;
     margin-top: 15px;
     float: left;
-    width: 47%;
+    width: 50%;
 }
 
 .last{
@@ -119,13 +120,80 @@
 
 }
 
-.add{
-    margin-top: 20px;
+.Add-Address{
+    padding-top: 15px;
+    width: 100%;
+    position: relative;
+    float: left;
+}
+
+.p-emAdd{
     width: 70%;
+    text-align: left;
+    float: left;
+    font-size: 1.2rem;
 }
 
 .btn-add{
     background-color:rgb(46, 112, 255);
     margin: 0 30px;
     font-weight: 700 !important;
+}
+
+.form-control{
+    font-size: 1rem;
+    height: 2rem;
+    width: 70%;
+    float: left;
+    padding-left: 10px;
+}
+
+.pay-off{
+    float: left;
+    border: 1px solid rgb(255, 130, 0);
+    width: 30%;
+    margin: 0.4rem;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.pay-onl{
+    float: left;
+    border: 1px solid rgb(255, 130, 0);
+    width: 30%;
+    margin: 0.4rem;
+    border-radius: 5px;
+    cursor: pointer;
+
+}
+
+.logo-payoff{
+    width: 2rem;
+    height: 1.5rem;
+    margin: 5px;
+    float: left;
+}
+
+.logo-vnpay{
+    width: 4rem;
+    height: 1.5rem;
+    margin: 5px;
+    float: left;
+}
+
+/* .pay-onl:hover{
+    background-color: rgb(255, 130, 0);
+    color: rgb(255,255,255);
+} */
+
+.btn-pay{
+    background-color: rgb(255, 130, 0);
+    color: rgb(255,255,255);
+    border: none;
+    padding: 0.7rem 2rem 0.7rem 2rem;
+    font-size: 1.2rem;
+    border-radius: 1.5rem;
+    display: block;
+    width: max-content;
+    margin: 10px auto 0 auto ;
 }
