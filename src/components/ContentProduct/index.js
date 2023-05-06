@@ -4,13 +4,12 @@ import "./ContentProduct.css";
 
 function ContentProduct() {
 
-    const [productType, setproductType] = useState([])
+    const [productType, setProductType] = useState([])
 
     const getProductType = () =>{
-        request.get(`producttype`)
+        request.get(`product-type`)
         .then((res)=>{
-            // console.log(res.data);
-            setproductType(res.data.producttype)
+            setProductType(res.data.data)
         })
     }
 

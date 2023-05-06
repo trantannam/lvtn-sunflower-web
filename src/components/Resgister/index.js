@@ -42,8 +42,8 @@ const ResgisterPopup = (props) => {
     const handleResgister = () => {
 
         const info = {
-            customername: customer,
-            phonenumber: phone,
+            customer_name: customer,
+            phone_number: phone,
             password: pass
         }
 

@@ -6,7 +6,7 @@ import Slider from "react-slick";
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 import { apiURL } from "../../utils/callAPI";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import AddressPopup from "../Address";
 
 function DetailProduct() {
@@ -17,16 +17,16 @@ function DetailProduct() {
     const [amount, setAmount] = useState({ value: 1 });
     const infoCustomer = useSelector((state) => state.auth.login.currentUser);
     const navigate = useNavigate();
+    const { id } = useParams();
 
-    const getInfoProduct = () => {
-        request.get(`/product/${window.location.href.split("/")[4]}`)
+    useEffect(() => {
+        request.get(`/product/${id}`)
             .then(res => {
-                setItem(res.data.result)
+                const data = res.data.data
+                setItem(data)
+                document.title = data.product_name
             })
-    }
-
-    
-
+    }, [id]);
     const handleOnChance = (e) => {
         setAmount({ value: parseInt(e) });
         console.log('Onchange', e)
@@ -46,10 +46,6 @@ function DetailProduct() {
         }
     }
 
-    useEffect(() => {
-        getInfoProduct();
-    }, []);
-
     var view = {
         dots: true,
         infinite: true,
@@ -59,8 +55,6 @@ function DetailProduct() {
         arrows: false,
         fade: true
     };
-
-    document.title = `${item.productname}`
 
     function getCart(customerID, productID) {
         request.post("/cart/getcart", { customerID: customerID })
@@ -109,7 +103,7 @@ function DetailProduct() {
                         </Slider>
                     </div>
                     <div className="col-info">
-                        <h1 className="title" itemProp="name">{item.productname}</h1>
+                        <h1 className="title" itemProp="name">{item.product_name}</h1>
                         <div className="product-feture"><p>Sản phẩm bao gồm:</p></div>
                         <p className="image-notice"><small>Sản phẩm thực nhận có thể khác với hình đại diện trên website (đặc điểm thủ công và tính chất tự nhiên của hàng nông nghiệp)</small></p>
 

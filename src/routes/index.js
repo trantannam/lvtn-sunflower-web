@@ -10,7 +10,7 @@ import Payment from "../pages/Payment";
 //public routes for customer don't have account
 const publicRoutes = [
     { path: '/', component: Home},
-    { path: '/detailproduct/:id', component: DetailPage, layout: ChildLayout},
+    { path: '/detail-product/:id', component: DetailPage, layout: ChildLayout},
     { path: '/admin', component: Admin, layout: HeaderAdmin},
     { path: '/info', component: Info, layout: null },
     { path: '/cart', component: Cart },

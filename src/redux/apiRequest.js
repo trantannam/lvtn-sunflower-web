@@ -16,7 +16,7 @@ export const logOut = async (dispatch,id, accessToken, navigate)=>{
     dispatch(logOutStart());
     try {
         await request.post("/customer/logout", id, {
-            headers: {token: `Bearer ${accessToken}`},
+            headers: {authorization: `Bearer ${accessToken}`},
         });
         dispatch(logOutSuccess());
     } catch (error) {

@@ -31,8 +31,7 @@ function Topbar() {
   const handleLogOut=()=>{
     logOut(dispatch,id,accessToken);
   }
-
-  console.log("user",user)
+  console.log(user)
 
   return (
     <>
@@ -62,7 +61,7 @@ function Topbar() {
               <li  >
                 <a ref={ref} onClick={() => handleLogin()}>
                   <FaUserCircle className='menu_logo' />
-                  {user === null ? 'Đăng nhập' : user.customername}
+                  {!user ? 'Đăng nhập' : user.customer_name}
                 </a>
                 <ControlledMenu {...menu}
                   anchorRef={ref}

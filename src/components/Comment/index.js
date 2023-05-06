@@ -2,20 +2,16 @@ import request from "../../utils/request";
 import { useEffect, useState } from "react";
 import { useSelector} from "react-redux";
 import "./Comment.css";
+import { useParams } from "react-router-dom";
 
 
 function Comment() {
-
     const [listComment, setListComment] = useState([]);
     const customerId = useSelector(state => state.auth.login.currentUser);
-    
 
     const postComment = async (e) => {
-
         e.preventDefault();
-        // await setContent($('textarea#content').val());
-        // console.log("content",content)
-            await request.post("/comment/postcomment", {
+            request.post("/comment/postcomment", {
                 content: document.getElementById("contentbox").value,
                 product: window.location.pathname.split("/")[2],
                 customer: customerId
@@ -23,23 +19,16 @@ function Comment() {
             .then(res=>{
                 console.log("res", res);
             })
-        
     }
-
-    const getComment = async () => {
-        await request.get(`/comment/${window.location.pathname.split("/")[2]}`)
+    const { id } = useParams();
+    useEffect(() => {
+        request.get(`/comment/${id}`)
             .then(res => {
                 if (res.data.success) {
                     setListComment(res.data.allComment);
                 }
             })
-            getComment();
-    }
-
-    useEffect(() => {
-        getComment()
-    }, []);
-
+    }, [id]);
 
     return (
         <div className="comment-product">
@@ -56,8 +45,8 @@ function Comment() {
             {listComment && listComment.map((com, index) =>
                 <div key={index} className="comments">
                     <div className="header-comment">
-                        <h3 className="ava-customer">{com.customer.customername.split(" ").pop().charAt(0)}</h3>
-                        <strong className="cus-name">{com.customer.customername}</strong>
+                        <h3 className="ava-customer">{com.customer?.customer_name?.split(" ").pop().charAt(0)}</h3>
+                        <strong className="cus-name">{com.customer?.customer_name}</strong>
                     </div>
                     <div className="content-comment"><p>{com.content}</p></div>
                     <div className="reply">

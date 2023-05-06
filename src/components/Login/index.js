@@ -16,7 +16,7 @@ const LoginPopup = (props) => {
 
     const handleLogin = async () => {
         if (passWord !== "" && phoneNumber !== "") {
-            await loginUser({ phonenumber: phoneNumber, password: passWord }, dispatch, naviagte);
+            await loginUser({ phone_number: phoneNumber, password: passWord }, dispatch, naviagte);
             props.closePopup(false);
         } else (alert('ban chua nhap pass hay sdt'))
     }
