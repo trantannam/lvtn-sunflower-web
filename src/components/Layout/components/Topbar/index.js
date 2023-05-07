@@ -8,6 +8,7 @@ import LoginPopup from "../../../../components/Login";
 import { logOut } from "../../../../redux/apiRequest";
 import ResgisterPopup from "../../../Resgister";
 import "./topbar.css";
+import { useNavigate } from 'react-router-dom';
 
 
 function Topbar() {
@@ -20,6 +21,7 @@ function Topbar() {
   const accessToken = user?.accessToken;
   const id = user?._id;
   const [menu, setMenu] = useMenuState({open:false});
+  const navigate = useNavigate();
 
   const handleLogin = () => {
     if (user === null) {
@@ -29,6 +31,7 @@ function Topbar() {
 
   const handleLogOut=()=>{
     logOut(dispatch,id,accessToken);
+    navigate("/");
   }
 
   return (

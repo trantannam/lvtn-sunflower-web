@@ -6,7 +6,6 @@ export const loginUser = async (user, dispatch, navigate) => {
     try {
         const res = await request.post("/customer/login", user);
         dispatch(loginSuccess(res.data));
-        navigate("/");
     } catch (error) {
         dispatch(loginFailed());
     }

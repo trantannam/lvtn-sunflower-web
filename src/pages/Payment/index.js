@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import AddressPopup from "../../components/Address";
 import { apiURL } from "../../utils/callAPI";
@@ -8,10 +8,13 @@ import "./Payment.css";
 import { MdHeadphones, MdOutlinePayments } from "react-icons/md";
 import vnpaylogo from "../../img/logo/vnpay-logo2.png";
 import { NotificationContainer, NotificationManager } from "react-notifications";
+import { updateProduct } from "../../redux/cartSlice";
 
 function Payment() {
 
     const user = useSelector((state) => state.auth.login.currentUser);
+    const { cart } = useSelector(state => state)
+    const dispatch = useDispatch();
 
     const [cartId, setCardId] = useState("");
 
@@ -63,29 +66,15 @@ function Payment() {
         }
     }, []);
 
-    const getCartByID = async () => {
-        try {
-            await request.post("/cart/getcart", { customerID: user._id })
-                .then(res => {
-                    if (res.data.success) {
-                        console.log("data", res.data)
-                        setCardId(res.data._id)
-                        setProducts(res.data.listCart.product)
-                    }
-                })
-        } catch (error) {
-            console.log(error);
+    function calcTotal () {
+        if (cart.products.length) {
+            return cart.products.reduce(
+                (sum, product) => (
+                    sum + (product.price * product.quantity)
+                ), 0)
+        } else {
+            return 0
         }
-    }
-
-    const temporaryPay = () => {
-        let temp = 0;
-        products.map((item) => {
-            temp = temp + item.quantity * item.productID.price;
-            // console.log("price", window)
-        });
-
-        setTotal(temp);
     }
 
     const checkedAtHome = () => {
@@ -111,7 +100,6 @@ function Payment() {
             NotificationManager.error("Bạn chưa nhập đầy đủ thông tin !")
         } else if (clicked === "cod") {
             request.post("/purchaseorder/create", {
-                cart: cartId,
                 customer: user._id,
                 address: address,
                 receiver: {
@@ -120,10 +108,12 @@ function Payment() {
                     phone: phoneReceiver,
                     ortherphone: otherPhone
                 },
+                products: cart.products || [],
                 paymentstatus: "unpay"
             }).then(
                 res => {
                     if (res.data.success === true) {
+                        dispatch(updateProduct([]))
                         NotificationManager.success("Đặt hàng thành công")
                     }
                 }
@@ -144,10 +134,10 @@ function Payment() {
 
     const getAD = async () => {
         await request.post("/delivery/getAddress", { customerID: user._id })
-            .then(
-                res => {
-                    setDiliveryAdd(res.data.data.division);
-                    console.log("res", res.data.data.division);
+            .then(res => {
+                const data = res.data.data
+                if(data)
+                    setDiliveryAdd(data.division || []);
                 }
             )
     }
@@ -175,10 +165,6 @@ function Payment() {
         }
     }
 
-    useEffect(() => temporaryPay(), [products])
-    useEffect(() => {
-        getCartByID();
-    }, [])
     useEffect(() => {
         getAD();
     }, [])
@@ -198,7 +184,7 @@ function Payment() {
                             <p className="title">Thông tin khách hàng</p>
                             <div className="in-group">
                                 <p className="child title">Họ và tên *</p>
-                                <input className="input-t" readOnly={hName} onChange={(e) => setName(e.target.value)} value={name}></input>
+                                <input className="input-t" readOnly={hName} onChange={(e) => setName(e.target.value)} value={user.customer_name}></input>
                             </div>
                             <div className="in-group">
                                 <p className="child title">Địa chỉ Email *</p>
@@ -206,7 +192,7 @@ function Payment() {
                             </div>
                             <div className="in-group">
                                 <p className="child title">Số điện thoại</p>
-                                <input className="input-t" readOnly={hPhone} onChange={(e) => setPhone(e.target.value)} value={phone}></input>
+                                <input className="input-t" onChange={(e) => setPhone(e.target.value)} value={user.phone_number}></input>
                             </div>
                             <div className="in-group">
                                 <p className="child title" onChange={(e) => setOtherPhone(e.target.value)}>Số điện thoại khác (nếu có)</p>
@@ -291,16 +277,16 @@ function Payment() {
                             Sản phẩm
                         </div>
                         <hr style={{ border: "1px solid rgb(200, 200, 200)" }} />
-                        {products.map((item, index) =>
+                        {cart.products.length && cart.products.map((item, index) =>
                             <div key={index} className="info-product">
                                 <div className="img-item">
-                                    <img src={apiURL + `${item.productID.image}`} />
+                                    <img src={apiURL + `${item.image}`} alt=""/>
                                 </div>
                                 <div className="name-item">
-                                    {item.productID.productname}
+                                    {item.product_name}
                                 </div>
                                 <div className="price-item">
-                                    {item.productID.price.toLocaleString()} đ
+                                    {item.price.toLocaleString()} đ
                                 </div>
                             </div>)}
                     </div>
@@ -314,7 +300,7 @@ function Payment() {
                                 Tạm tính
                             </div>
                             <div className="price-item">
-                                {total.toLocaleString()} đ
+                                {calcTotal().toLocaleString()} đ
                             </div>
                         </div>
                         <div className="info-product">
@@ -332,7 +318,7 @@ function Payment() {
                                 Tổng cộng
                             </div>
                             <div className="price-item">
-                                {(total + ship).toLocaleString()} đ
+                                {(calcTotal() + ship).toLocaleString()} đ
                             </div>
                         </div>
                     </div>

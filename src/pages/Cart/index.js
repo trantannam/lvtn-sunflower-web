@@ -7,8 +7,8 @@ import request from "../../utils/request";
 import { apiURL } from "../../utils/callAPI";
 import { AiOutlineClose } from "react-icons/ai";
 import { quantityProduct, removeProduct } from "../../redux/cartSlice";
-
 import { NotificationManager } from 'react-notifications';
+
 function Cart() {
 
     const userInfo = useSelector((state) => state.auth.login.currentUser);
@@ -40,7 +40,12 @@ function Cart() {
     }
 
     const pay = () =>{
-        navigate("/payment")
+        console.log(userInfo)
+        if (userInfo) {
+            return navigate("/payment")
+        } else {
+            NotificationManager.warning('Vui lòng đăng nhập để tiếp tục.');
+        }
     }
 
     useEffect(()=>{calcTotal()},[listProduct]);
@@ -142,7 +147,7 @@ function Cart() {
                     </div>
                 </div>
                 <div className="btn-box">
-                    <a className="btn btn-buy btn-confirm" onClick={()=>pay()}>TIẾP TỤC</a>
+                    <i className="btn btn-buy btn-confirm" onClick={()=>pay()}>TIẾP TỤC</i>
                 </div>
             </div>
         </div>
