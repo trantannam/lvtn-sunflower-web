@@ -20,7 +20,7 @@ function ContentProduct() {
             <div className="product-type">
                 <ul className="type-list">
                     {productType.map((item, index)=>
-                    <li id={index}>
+                    <li key={index}>
                         <a>
                             <span>{item.name}</span>
                         </a>

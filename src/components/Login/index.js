@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import "./LoginPopup.css";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { loginUser } from "../../redux/apiRequest";
+import { NotificationManager } from 'react-notifications';
 
 const LoginPopup = (props) => {
 
@@ -17,6 +18,7 @@ const LoginPopup = (props) => {
     const handleLogin = async () => {
         if (passWord !== "" && phoneNumber !== "") {
             await loginUser({ phone_number: phoneNumber, password: passWord }, dispatch, naviagte);
+            NotificationManager.success('Đăng nhập thành công');
             props.closePopup(false);
         } else (alert('ban chua nhap pass hay sdt'))
     }

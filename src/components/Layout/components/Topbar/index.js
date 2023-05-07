@@ -1,14 +1,13 @@
-import { useEffect, useRef, useState } from "react";
-import { MenuItem, ControlledMenu, useMenuState, MenuDivider } from '@szhsin/react-menu';
-import { FaRegNewspaper, FaStore, FaWhatsapp, FaUserCircle } from "react-icons/fa";
-import {FiLogOut} from "react-icons/fi";
+import { ControlledMenu, MenuItem, useMenuState } from '@szhsin/react-menu';
+import { useRef, useState } from "react";
+import { FaRegNewspaper, FaStore, FaUserCircle, FaWhatsapp } from "react-icons/fa";
+import { FiLogOut } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
 import LoginPopup from "../../../../components/Login";
 // import UserMenu from "../../../UserMenu";
-import "./topbar.css";
 import { logOut } from "../../../../redux/apiRequest";
-import { useNavigate } from "react-router-dom";
 import ResgisterPopup from "../../../Resgister";
+import "./topbar.css";
 
 
 function Topbar() {
@@ -31,7 +30,6 @@ function Topbar() {
   const handleLogOut=()=>{
     logOut(dispatch,id,accessToken);
   }
-  console.log(user)
 
   return (
     <>

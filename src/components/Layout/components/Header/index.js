@@ -3,9 +3,21 @@ import { GrMap, GrPhone } from "react-icons/gr";
 import { GiShoppingCart } from "react-icons/gi";
 import { FaSearch } from "react-icons/fa";
 import "./header.css";
+import { useSelector } from "react-redux";
 
 function Header(props) {
 
+    const { cart } = useSelector(state => state)
+    function cartTotal () {
+        if (cart.products.length) {
+            return cart.products.reduce(
+                (sum, product) => (
+                    sum + product.quantity
+                ), 0)
+        } else {
+            return 0
+        }
+    }
 
 
     return (
@@ -43,7 +55,7 @@ function Header(props) {
                                 <div className="icon">
                                     <Link to={"/Cart"}>
                                         <GiShoppingCart />
-                                        <span id="cart-num"><p className="num">0</p></span>
+                                        <span id="cart-num"><p className="num">{cartTotal()}</p></span>
                                     </Link>
                                 </div>
                             </div>

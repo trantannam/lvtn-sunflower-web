@@ -5,23 +5,22 @@ import request from "../../utils/request";
 import { useState } from "react";
 import { GrFormAdd, GrFormSubtract } from 'react-icons/gr'
 import { apiURL } from "../../utils/callAPI";
+import { Link } from "react-router-dom";
 
 
 function ProductCate() {
 
-    const [productCategrory, setProductCategrory] = useState([]);
+    const [productCategory, setProductCategory] = useState([]);
 
     async function getProduct() {
         await request.get(`/product`)
             .then(function (res) {
-                setProductCategrory(res.data.products);
+                setProductCategory(res.data.data);
             })
             .catch((err) => {
                 console.error('loi truy cap', err)
             })
     }
-
-    console.log()
 
     useEffect(() => { getProduct(); }, [])
 
@@ -32,18 +31,18 @@ function ProductCate() {
                 <div className="row product">
 
                     {/* product item render */}
-                    {productCategrory.map((product, index) =>(
-                        <div key={index} className="col-product-item">
+                    {productCategory.map((product, index) =>(
+                        <div key={product._id} className="col-product-item">
                             <div className="product-item">
                                 <div className="product-img">
-                                    <a href={`/detailproduct/${product._id}`}>
+                                    <Link to={`/detail-product/${product._id}`}>
                                         <img src={`${apiURL}` + product.image} alt='' />
-                                    </a>
+                                    </Link>
                                 </div>
                                 <div className="product-title">
-                                    <a href=''>
-                                        <span>{product.productname}</span>
-                                    </a>
+                                    <Link to={`/detail-product/${product._id}`}>
+                                        <span>{product.product_name}</span>
+                                    </Link>
                                 </div>
                                 <div className="product-button-wrapper">
                                     <div className="product-price">

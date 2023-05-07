@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import request from "../../utils/request";
 import "./DetailProduct.css";
 import Slider from "react-slick";
@@ -8,15 +8,18 @@ import 'slick-carousel/slick/slick-theme.css'
 import { apiURL } from "../../utils/callAPI";
 import { useNavigate, useParams } from "react-router-dom";
 import AddressPopup from "../Address";
+import { addProductToCart } from "../../redux/cartSlice";
+import { NotificationManager } from 'react-notifications';
 
 function DetailProduct() {
 
     const [showAddress, setShowAddress] = useState();
 
     const [item, setItem] = useState([]);
-    const [amount, setAmount] = useState({ value: 1 });
+    const [quantity, setQuantity] = useState(1);
     const infoCustomer = useSelector((state) => state.auth.login.currentUser);
-    const navigate = useNavigate();
+    const { cart } = useSelector(state => state)
+
     const { id } = useParams();
 
     useEffect(() => {
@@ -27,23 +30,8 @@ function DetailProduct() {
                 document.title = data.product_name
             })
     }, [id]);
-    const handleOnChance = (e) => {
-        setAmount({ value: parseInt(e) });
-        console.log('Onchange', e)
-    }
-
-    const handlePLus = () => {
-        if (amount.value < 99) {
-            setAmount({ value: amount.value + 1 });
-            console.log('Plus', amount.value + 1)
-        }
-    }
-
-    const handleMinus = () => {
-        if (amount.value > 1) {
-            setAmount({ value: amount.value - 1 })
-            console.log('Minus', amount.value - 1)
-        }
+    const handleOnChance = (value) => {
+        setQuantity(value);
     }
 
     var view = {
@@ -56,38 +44,57 @@ function DetailProduct() {
         fade: true
     };
 
-    function getCart(customerID, productID) {
-        request.post("/cart/getcart", { customerID: customerID })
-            .then(res => {
-                if (res.data.success === false) {
-                    request.post("/cart/createcart",
-                        {
-                            customerID: customerID,
-                            product: {
-                                productID: productID,
-                                quantity: amount.value
-                            }
-                        }).then(res => {
-                            navigate("/cart");
-                            console.log("createCart: ", res)
-                        })
-                } else {
-                    request.post("/cart/addcart", {
-                        _id: res.data.listCart._id,
-                        product: {
-                            productID: productID,
-                            quantity: amount.value
-                        }
-                    }).then(res => {
-                        navigate("/cart");
+    // function getCart(customerID, productID) {
+    //     request.post("/cart/getcart", { customerID: customerID })
+    //         .then(res => {
+    //             if (res.data.success === false) {
+    //                 request.post("/cart/createcart",
+    //                     {
+    //                         customerID: customerID,
+    //                         product: {
+    //                             productID: productID,
+    //                             quantity: amount.value
+    //                         }
+    //                     }).then(res => {
+    //                         navigate("/cart");
+    //                         console.log("createCart: ", res)
+    //                     })
+    //             } else {
+    //                 request.post("/cart/addcart", {
+    //                     _id: res.data.listCart._id,
+    //                     product: {
+    //                         productID: productID,
+    //                         quantity: amount.value
+    //                     }
+    //                 }).then(res => {
+    //                     navigate("/cart");
+    //                 })
+    //             }
+    //         })
+    // }
+    const dispatch = useDispatch();
 
-                        console.log("addCart: ", res);
-                    })
-                }
-                console.log("getCart: ", res)
-            })
+    const handleAddToCart = (id) => {
+        const product = {
+            name: item.product_name,
+            image: item.image,
+            price: item.price,
+            product_type: item.product_type._id || '',
+            quantity
+        }
+        const index = cart.products.findIndex((item) => item.productId === id);
+        if (index >= 0) {
+            if (Number(cart.products[index].quantity) + Number(quantity) > 50 || Number(cart.products[index].quantity) > 50) {
+                NotificationManager.error('Sản phẩm vượt quá số lượng cho phép - 50 sản phẩm');
+            } else {
+                dispatch(addProductToCart({ id, product }))
+                NotificationManager.success('Thêm giỏ hàng thành công.');
+            }
+        } else {
+            dispatch(addProductToCart({ id, product }))
+            NotificationManager.success('Thêm giỏ hàng thành công.');
+        }
     }
-
     return (
         <>
         <AddressPopup 
@@ -99,7 +106,7 @@ function DetailProduct() {
                 <div className="row">
                     <div className="col-image">
                         <Slider {...view}  >
-                            <img src={`${apiURL}` + item.image} />
+                            <img src={`${apiURL}` + item.image} alt=""/>
                         </Slider>
                     </div>
                     <div className="col-info">
@@ -113,11 +120,11 @@ function DetailProduct() {
                             
                                 <div className="input-group">
                                     <span className="input-group-btn input-group-prepend">
-                                        <button className="btn btn-primary" onClick={() => handleMinus()} type="button">-</button>
+                                        <button className="btn btn-primary" onClick={() => setQuantity(item => item === 1 ? item : item -= 1)} type="button">-</button>
                                     </span>
-                                    <input id="quantity" type="text" value={amount.value} onChange={(e) => handleOnChance(e.target.value)} name="quantity" min={1} max={99} className="form-control"></input>
+                                    <input id="quantity" type="number" value={quantity} onChange={(e) => handleOnChance(e.target.value)} name="quantity" min={1} max={50} className="form-control"></input>
                                     <span className="input-group-btn input-group-append">
-                                        <button className="btn btn-primary" onClick={() => handlePLus()} type="button">+</button>
+                                        <button className="btn btn-primary" onClick={() => setQuantity(item => item >= 50 ? 50 : item = Number(item) + 1)} type="button">+</button>
                                     </span>
                                 </div>
 
@@ -133,7 +140,7 @@ function DetailProduct() {
                                 }
                                 type="button"
                             >Mua ngay</button>
-                            <button className="btn btn-add-to-cart" type="button" onClick={() => getCart(infoCustomer._id, item._id)}>Thêm vào giỏ</button>
+                            <button className="btn btn-add-to-cart" type="button" onClick={() => handleAddToCart(item._id)}>Thêm vào giỏ</button>
                         </div>
                     </div>
                 </div>
