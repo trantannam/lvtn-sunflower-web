@@ -22,3 +22,4 @@ export const logOut = async (dispatch,id, accessToken, navigate)=>{
         dispatch(logOutFailed());
     }
 }
+

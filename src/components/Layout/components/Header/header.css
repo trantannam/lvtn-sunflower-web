@@ -25,6 +25,7 @@
   border-radius: 30px;
   position: relative;
   border-collapse: separate;
+  z-index: 4;
 }
 
 .input-group .form-control{

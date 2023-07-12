@@ -8,31 +8,18 @@ import { apiURL } from "../../utils/callAPI";
 import { Link } from "react-router-dom";
 
 
-function ProductCate() {
+function ProductCate(props) {
 
-    const [productCategory, setProductCategory] = useState([]);
-
-    async function getProduct() {
-        await request.get(`/product`)
-            .then(function (res) {
-                setProductCategory(res.data.data);
-            })
-            .catch((err) => {
-                console.error('loi truy cap', err)
-            })
-    }
-
-    useEffect(() => { getProduct(); }, [])
 
     return (
         <div className="container">
             <div className="group-product-wrap">
-                <h2>DANH MỤC SẢN PHẨM</h2>
+                <h2>{props.title.toUpperCase()}</h2>
                 <div className="row product">
 
                     {/* product item render */}
-                    {productCategory.map((product, index) =>(
-                        <div key={product._id} className="col-product-item">
+                    {props.listProduct.map((product, index) =>(
+                        <div key={index} className="col-product-item">
                             <div className="product-item">
                                 <div className="product-img">
                                     <Link to={`/detail-product/${product._id}`}>
