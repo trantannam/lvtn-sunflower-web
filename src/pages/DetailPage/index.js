@@ -4,8 +4,6 @@ import DetailProduct from "../../components/DetailProduct";
 
 function DetailPage() {
 
-    
-
     return (
         <div>
             <DetailProduct />

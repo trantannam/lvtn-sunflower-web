@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useSelector} from "react-redux";
 import "./Comment.css";
 import { useParams } from "react-router-dom";
+import countTime from "../CountTime";
 
 
 function Comment() {
@@ -51,7 +52,7 @@ function Comment() {
                     <div className="content-comment"><p>{com.content}</p></div>
                     <div className="reply">
                         <button className="btn-reply">Trả lời</button>
-                        <p className="reply-time">- 10 tiếng trước</p>
+                        <p className="reply-time">- {countTime(com.createdAt)}</p>
                     </div>
                 </div>)}
         </div>

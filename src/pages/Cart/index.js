@@ -74,7 +74,7 @@ function Cart() {
                                         <img src={apiURL + `${item.image}`} alt="Bình Hoa Niềm Vui Nhỏ Bé 262" />
                                     </div>
                                     <div className="p-info">
-                                        <Link className="p-name" to={"/"}>{item.product_name}</Link>
+                                        <Link className="p-name" to={"/"}>{item.name}</Link>
                                         {/* <a className="p-name" href="https://shop.dalathasfarm.com/a5/binh-hoa-niem-vui-nho-be-262-p1452.html" title="Bình Hoa Niềm Vui Nhỏ Bé 262">product name</a> */}
                                         {/* button flower love */}
                                         {/* <a className="wishlist" data-toggle="modal" data-keyboard="false" data-backdrop="static" data-target="#loginModal" title="Yêu thích"><img width="20" src="https://shop.dalathasfarm.com/public/dalathasfarm/images/like-2.png"/>Yêu thích</a> */}

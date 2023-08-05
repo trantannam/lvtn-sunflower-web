@@ -20,7 +20,7 @@ function Topbar() {
   const dispatch = useDispatch();
   const accessToken = user?.accessToken;
   const id = user?._id;
-  const [menu, setMenu] = useMenuState({open:false});
+  const [menu, setMenu] = useMenuState({ open: false });
   const navigate = useNavigate();
 
   const handleLogin = () => {
@@ -29,14 +29,21 @@ function Topbar() {
     } else { setMenu(true); }
   }
 
-  const handleLogOut=()=>{
-    logOut(dispatch,id,accessToken);
+  const handleLogOut = () => {
+    logOut(dispatch, id, accessToken);
     navigate("/");
+  }
+
+  const handleMyOrder = () => {
+    navigate("/member", { state: { clicked: "myorder" } });
+  }
+
+  const handleCustomerInfo = () => {
+    navigate("/member", { state: { clicked: "myinfo" } });
   }
 
   return (
     <>
-
       <LoginPopup
         showPopup={formLogin}
         closePopup={setFormLogin}
@@ -66,11 +73,12 @@ function Topbar() {
                 </a>
                 <ControlledMenu {...menu}
                   anchorRef={ref}
-                  onClose={()=>setMenu(false)}
+                  onClose={() => setMenu(false)}
                   menuClassName={"user-menu"}
                 >
-                  <MenuItem className={"child-item"}>Thông tin tài khoản</MenuItem>
-                  <MenuItem className={"child-item"} onClick={()=>handleLogOut()}><FiLogOut className="icon"/> <p>Đăng xuất</p></MenuItem>
+                  <MenuItem className={"child-item"} onClick={() => handleCustomerInfo()}>Thông tin tài khoản</MenuItem>
+                  <MenuItem className={"child-item"} onClick={() => handleMyOrder()}>Thông tin đơn hàng</MenuItem>
+                  <MenuItem className={"child-item"} onClick={() => handleLogOut()}><FiLogOut className="icon" /> <p>Đăng xuất</p></MenuItem>
                 </ControlledMenu>
               </li>
             </div>

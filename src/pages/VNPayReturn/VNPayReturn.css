@@ -1,0 +1,72 @@
+.vnp-return{
+    width: 450px;
+    height: max-content;
+    border: 1px solid #706dff;
+    border-radius: 10px;
+    margin: 100px auto;
+}
+
+.vnp-title{
+    font-size: 2.5rem;
+    text-align: center;
+    padding-top: 2rem;
+}
+
+.transaction-status{
+    text-align: center;
+    padding: 1.8rem 0;
+}
+
+.status-icon{
+    color: rgb(0, 221, 0);
+    font-size: 5rem;
+}
+
+.transaction-status p{
+    padding-top: 1.5rem;
+    font-size: 2rem;
+    font-weight: 700;
+    color: rgb(36, 36, 36);
+}
+
+.transaction-info{
+    content: "";
+    padding-top: 0.5rem;
+    font-size: 1.3rem;
+    color: rgb(36, 36, 36);
+    display: table;
+    clear: both;
+    width: 100%;
+    padding: 15px 20px;
+}
+
+.col1{
+    float: left;
+    font-weight: 700;
+    width: 55%;
+    border-bottom: 1px grey solid;
+    padding: 8px 0;
+}
+
+.col2{
+    float: right;
+    text-align: right;
+    width: 45%;
+    border-bottom: 1px grey solid;
+    padding: 8px 0;
+}
+
+.continuous{
+    margin: 20px auto;
+    padding: 12px;
+    font-size: 1.2rem;
+    color: white;
+    display: grid;
+    justify-content: space-between;
+    border: none;
+    border-radius: 5px;
+    background-color: green;
+    cursor: pointer;
+}
+
+

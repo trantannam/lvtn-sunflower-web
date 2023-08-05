@@ -1,0 +1,59 @@
+.wrapper{
+    width: 100%;
+    border-radius: 8px;
+    border: 0.5px solid #efefef;
+    float: left;
+}
+
+.wrapper .left-wrap{
+    width: 24%;
+    float: left;
+    position: relative;
+    padding: 15px;
+}
+
+.user{
+    display: flex;
+    justify-content: flex-start;
+    justify-items: center;
+    padding: 20px 0;
+    border-bottom: 1px solid #efefef;
+}
+.user .member-avatar {
+    flex: 0 0 32px;
+    width: 32px;
+    justify-items: center;
+    font-size: 2rem;
+}
+
+.user .member-name p:last-child {
+    font-weight: 700;
+}
+
+.user .member-name {
+    padding-left: 15px;
+}
+
+.member-menu{
+    padding-top: 10px;
+}
+
+.member-menu .menu p{
+    padding: 8px;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+.wrapper .right-wrap{
+    width: 74%;
+    position: relative;
+    float: left;
+}
+
+.show-result{
+    border-radius: 10px;
+    border: 1px solid #efefef;
+    padding: 10px 15px;
+    margin-top: 30px;
+    margin-bottom: 20px;
+}

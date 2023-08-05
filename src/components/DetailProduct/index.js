@@ -19,6 +19,7 @@ function DetailProduct() {
     const [quantity, setQuantity] = useState(1);
     const infoCustomer = useSelector((state) => state.auth.login.currentUser);
     const { cart } = useSelector(state => state)
+    const navigate = useNavigate();
 
     const { id } = useParams();
 
@@ -95,6 +96,11 @@ function DetailProduct() {
             NotificationManager.success('Thêm giỏ hàng thành công.');
         }
     }
+
+    const handleBuyNow=(id)=>{
+        handleAddToCart(item._id);
+        navigate("/cart")
+    }
     return (
         <>
         <AddressPopup 
@@ -136,7 +142,7 @@ function DetailProduct() {
                             <button className="hidden toggle-popupCart" type="button"></button>
                             <button className="btn btn-buy"
                                 onClick={()=>
-                                    setShowAddress(true)
+                                    handleBuyNow(item._id)
                                 }
                                 type="button"
                             >Mua ngay</button>

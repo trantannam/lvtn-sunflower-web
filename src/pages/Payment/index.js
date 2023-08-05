@@ -9,9 +9,11 @@ import { MdHeadphones, MdOutlinePayments } from "react-icons/md";
 import vnpaylogo from "../../img/logo/vnpay-logo2.png";
 import { NotificationContainer, NotificationManager } from "react-notifications";
 import { updateProduct } from "../../redux/cartSlice";
+import ConfirmPopup from "../../components/ConfirmPopup";
 
 function Payment() {
 
+    //customer info 
     const user = useSelector((state) => state.auth.login.currentUser);
     const { cart } = useSelector(state => state)
     const dispatch = useDispatch();
@@ -21,6 +23,10 @@ function Payment() {
     //state address popup
     const [showAPopup, setShowAPopup] = useState(false);
     const [pushSuccessFully, setPushSuccessFully] = useState();
+
+    //confirmPopup state
+    const [showCPopup, setShowCPopup] = useState(false);
+    const [confirmed, setConfirmed] = useState(false);
 
     //state info order
     const [name, setName] = useState("");
@@ -32,7 +38,6 @@ function Payment() {
 
     const [gender, setGender] = useState(true);
     const [products, setProducts] = useState([]);
-    const [total, setTotal] = useState(0);
     const [ship, setShip] = useState(0);
 
     //state receive
@@ -56,17 +61,21 @@ function Payment() {
 
     const [receiveAtHome, setReceiveAtHome] = useState(true);
 
+    const tranCodeCOD = () => {
+        let time = new Date();
+        return time.getTime().toString() + Math.floor(Math.random()*100);
+    }
 
     useEffect(() => {
         if (user !== null && user !== undefined) {
-            setName(user.customername);
-            setPhone(user.phonenumber);
+            setName(user.customer_name);
+            setPhone(user.phone_number);
             setHName(true);
             setHPhone(true);
         }
     }, []);
 
-    function calcTotal () {
+    function calcTotal() {
         if (cart.products.length) {
             return cart.products.reduce(
                 (sum, product) => (
@@ -95,13 +104,13 @@ function Payment() {
         }
     }
 
-    const orderProduct = async () => {
-        if (name === "" || phone === "" || receiver === "" || phoneReceiver === "" || address === "") {
-            NotificationManager.error("Bạn chưa nhập đầy đủ thông tin !")
-        } else if (clicked === "cod") {
-            request.post("/purchaseorder/create", {
+    //useEffect cod 
+    useEffect(()=>{
+        if(confirmed){
+            request.post("/purchase-order/create", {
+                tranCode: tranCodeCOD(),
                 customer: user._id,
-                address: address,
+                receiveAddress: address,
                 receiver: {
                     name: receiver,
                     gender: gender,
@@ -109,7 +118,8 @@ function Payment() {
                     ortherphone: otherPhone
                 },
                 products: cart.products || [],
-                paymentstatus: "unpay"
+                deliveryStatus: "waiting for progressing",
+                paymentStatus: "cod"
             }).then(
                 res => {
                     if (res.data.success === true) {
@@ -118,15 +128,55 @@ function Payment() {
                     }
                 }
             )
-        }else if (clicked === "vnp") {
+        }
+    },[confirmed])
+
+    const orderProduct = async () => {
+        if (name === "" || phone === "" || receiver === "" || phoneReceiver === "" || address === "") {
+            NotificationManager.error("Bạn chưa nhập đầy đủ thông tin !")
+        } else if (clicked === "cod") {
+            setShowCPopup(true);
+        } else if (clicked === "vnp") {
             await request.post("/payment/create-url", {
-                total: total,
+                total: calcTotal(),
                 bankCode: "NCB",
                 description: "thanh toan hoa don"
             })
-                .then(res => {
-                    if (res.data.success === true) {
-                        window.location = res.data.data
+                .then(url_Res => {
+                    if (url_Res.data.success === true) {
+
+                        request.post("/purchase-order/create", {
+                            customer: user._id,
+                            receiveAddress: address,
+                            tranCode: url_Res.data.tranCode,
+                            receiver: {
+                                name: receiver,
+                                gender: gender,
+                                phone: phoneReceiver,
+                                ortherphone: otherPhone
+                            },
+                            products: cart.products || [],
+                            deliveryStatus: "waiting for progressing",
+                            paymentStatus: "waiting for pay"
+                        }).then(
+                            res => {
+                                if (res.data.success === true) {
+                                    window.location = url_Res.data.data;
+                                }
+                            }
+                        )
+                        /* 
+                ===> CSDL   + Thêm tranNO
+                            + Thêm deliverystatus
+                            + Thêm 1 trạng thái mới khi thanh toán "waiting for pay"
+                ===> api    + Api vnpay có thêm tranNO
+                ===> to do  + Chỉnh sửa PTTT "cod"
+                            + Cập nhật vnp
+                            + Khi thanh toán vnpay --> tạo đơn hàng
+                            + Thiết kế api update PurchaseOrder
+                            + Url_return xác thực qua tranNo===vnp_TxnRef
+                        */
+
                     }
                 })
         }
@@ -136,13 +186,13 @@ function Payment() {
         await request.post("/delivery/getAddress", { customerID: user._id })
             .then(res => {
                 const data = res.data.data
-                if(data)
+                if (data)
                     setDiliveryAdd(data.division || []);
-                }
+            }
             )
     }
 
-
+    // COD payment
     const OnClickCod = () => {
         if (clicked === "vnp") {
             setBGCod(orange);
@@ -154,6 +204,7 @@ function Payment() {
         }
     }
 
+    // VNP payment
     const OnClickVnp = () => {
         if (clicked === "cod") {
             setBGCod(white);
@@ -171,6 +222,15 @@ function Payment() {
 
     return (
         <>
+        <ConfirmPopup
+            show = {showCPopup}
+            close = {setShowCPopup}
+            title = "Xác nhận đặt hàng"
+            content = "Nhấn xác nhận để tiếp tục đặt hàng"
+            continue = {setConfirmed}
+        />
+
+        
             <AddressPopup
                 show={showAPopup}
                 close={setShowAPopup}
@@ -179,6 +239,7 @@ function Payment() {
 
             <div className="container">
                 <div className="left">
+                    {/* Orderer info */}
                     <div className="info-order">
                         <div className="info-cus">
                             <p className="title">Thông tin khách hàng</p>
@@ -201,6 +262,7 @@ function Payment() {
                         </div>
                     </div>
                     <div className="info-order">
+                        {/* receiver info */}
                         <div className="info-diliver">
                             <p className="title">Thông tin nhận hàng</p>
                             <div className="in-group">
@@ -214,7 +276,6 @@ function Payment() {
                                 <label ><input id={"male"} defaultChecked={true} onChange={e => setGender(e.target.id)} name="gender" type={"radio"} className="radio-button" />Nam</label>
                                 <label ><input id={"female"} onChange={e => setGender(e.target.id)} name="gender" type={"radio"} className="radio-button" />Nữ</label>
                             </div>
-
 
                             <input className="input-t" onChange={(e) => setReceiver(e.target.value)} value={receiver} placeholder="Nhập họ tên người nhận *"></input>
                             <input className="input-t child" onChange={(e) => setPhoneReceiver(e.target.value)} value={phoneReceiver} placeholder="Số điện thoại *"></input>
@@ -255,7 +316,7 @@ function Payment() {
                         <div className="info-diliver">
                             <p className="title">Phương thức thanh toán</p>
                             {/* <div className="in-group"> */}
-                            <div className="pay-off" onClick={() => OnClickCod()} style={{ backgroundColor: bGCod, color: textCod }}>
+                            <div className="pay-cod" onClick={() => OnClickCod()} style={{ backgroundColor: bGCod, color: textCod }}>
                                 <MdOutlinePayments className="logo-payoff" />
                                 <p style={{ margin: "0.3rem 0 0 3rem", fontSize: "1.2rem" }}>Thanh toán khi nhận hàng</p>
                             </div>
@@ -280,10 +341,13 @@ function Payment() {
                         {cart.products.length && cart.products.map((item, index) =>
                             <div key={index} className="info-product">
                                 <div className="img-item">
-                                    <img src={apiURL + `${item.image}`} alt=""/>
+                                    <img src={apiURL + `${item.image}`} alt="" />
                                 </div>
                                 <div className="name-item">
-                                    {item.product_name}
+                                    {item.name}
+                                    <br />
+                                    <br />
+                                    x {item.quantity}
                                 </div>
                                 <div className="price-item">
                                     {item.price.toLocaleString()} đ

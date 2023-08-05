@@ -44,8 +44,10 @@ const ResgisterPopup = (props) => {
         const info = {
             customer_name: customer,
             phone_number: phone,
+            gender: gender,
             password: pass
         }
+        console.log("info", info)
 
         if (customer === undefined || customer === null) {
             NotificationManager.warning('Bạn chưa nhập họ và tên','Cảnh báo', 3000);

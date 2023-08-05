@@ -1,0 +1,19 @@
+.customer-info>p{
+    font-weight: 800;
+    padding: 10px 0;
+    color: #00833d;
+}
+
+.customer-info .account-infomation > p{
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+}
+
+.customer-info .account-infomation > p >span:first-child{
+    flex: 0 0 30%;
+}
+
+.customer-info .account-infomation > p >span:last-child{
+    flex: 0 0 70%;
+}
