@@ -63,7 +63,7 @@ function Payment() {
 
     const tranCodeCOD = () => {
         let time = new Date();
-        return time.getTime().toString() + Math.floor(Math.random()*100);
+        return time.getTime().toString() + Math.floor(Math.random() * 100);
     }
 
     useEffect(() => {
@@ -105,8 +105,8 @@ function Payment() {
     }
 
     //useEffect cod 
-    useEffect(()=>{
-        if(confirmed){
+    useEffect(() => {
+        if (confirmed) {
             request.post("/purchase-order/create", {
                 tranCode: tranCodeCOD(),
                 customer: user._id,
@@ -117,6 +117,7 @@ function Payment() {
                     phone: phoneReceiver,
                     ortherphone: otherPhone
                 },
+                totalEstimate: calcTotal(),
                 products: cart.products || [],
                 deliveryStatus: "waiting for progressing",
                 paymentStatus: "cod"
@@ -129,7 +130,7 @@ function Payment() {
                 }
             )
         }
-    },[confirmed])
+    }, [confirmed])
 
     const orderProduct = async () => {
         if (name === "" || phone === "" || receiver === "" || phoneReceiver === "" || address === "") {
@@ -144,7 +145,6 @@ function Payment() {
             })
                 .then(url_Res => {
                     if (url_Res.data.success === true) {
-
                         request.post("/purchase-order/create", {
                             customer: user._id,
                             receiveAddress: address,
@@ -156,6 +156,7 @@ function Payment() {
                                 ortherphone: otherPhone
                             },
                             products: cart.products || [],
+                            totalEstimate: calcTotal(),
                             deliveryStatus: "waiting for progressing",
                             paymentStatus: "waiting for pay"
                         }).then(
@@ -176,7 +177,6 @@ function Payment() {
                             + Thiết kế api update PurchaseOrder
                             + Url_return xác thực qua tranNo===vnp_TxnRef
                         */
-
                     }
                 })
         }
@@ -222,15 +222,15 @@ function Payment() {
 
     return (
         <>
-        <ConfirmPopup
-            show = {showCPopup}
-            close = {setShowCPopup}
-            title = "Xác nhận đặt hàng"
-            content = "Nhấn xác nhận để tiếp tục đặt hàng"
-            continue = {setConfirmed}
-        />
+            <ConfirmPopup
+                show={showCPopup}
+                close={setShowCPopup}
+                title="Xác nhận đặt hàng"
+                content="Nhấn xác nhận để tiếp tục đặt hàng"
+                continue={setConfirmed}
+            />
 
-        
+
             <AddressPopup
                 show={showAPopup}
                 close={setShowAPopup}
@@ -315,7 +315,6 @@ function Payment() {
                     <div className="info-order">
                         <div className="info-diliver">
                             <p className="title">Phương thức thanh toán</p>
-                            {/* <div className="in-group"> */}
                             <div className="pay-cod" onClick={() => OnClickCod()} style={{ backgroundColor: bGCod, color: textCod }}>
                                 <MdOutlinePayments className="logo-payoff" />
                                 <p style={{ margin: "0.3rem 0 0 3rem", fontSize: "1.2rem" }}>Thanh toán khi nhận hàng</p>
@@ -341,7 +340,7 @@ function Payment() {
                         {cart.products.length && cart.products.map((item, index) =>
                             <div key={index} className="info-product">
                                 <div className="img-item">
-                                    <img src={apiURL + `${item.image}`} alt="" />
+                                    <img src={apiURL + `${item.image[0]}`} alt="" />
                                 </div>
                                 <div className="name-item">
                                     {item.name}

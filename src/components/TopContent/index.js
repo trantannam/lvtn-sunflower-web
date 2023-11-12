@@ -64,7 +64,7 @@ function TopContent() {
                     </nav> */}
                 </div>
                 <div className="middle-banner">
-                    <nav className="nav-extend">
+                    {/* <nav className="nav-extend">
                         <ul>
                             <li>
                                 <a>
@@ -102,13 +102,14 @@ function TopContent() {
                                 </a>
                             </li>
                         </ul>
-                    </nav>
+                    </nav> */}
                     <div className="banner">
                         <AutoplaySlider
                             play={true}
                             cancelOnInteraction={false}
                             interval={2000}
-                        // cssModule={AwesomeSliderStyles}
+                            
+                        cssModule={AwesomeSliderStyles}
                         >
                             <div data-src={slider1} />
                             <div data-src={slider2} />

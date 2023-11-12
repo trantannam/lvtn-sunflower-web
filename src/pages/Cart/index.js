@@ -71,7 +71,7 @@ function Cart() {
                             <div className="body-item product-info">
                                 <div className="cart-product">
                                     <div className="p-image">
-                                        <img src={apiURL + `${item.image}`} alt="Bình Hoa Niềm Vui Nhỏ Bé 262" />
+                                        <img src={apiURL + `${item.image[0]}`} alt="Bình Hoa Niềm Vui Nhỏ Bé 262" />
                                     </div>
                                     <div className="p-info">
                                         <Link className="p-name" to={"/"}>{item.name}</Link>

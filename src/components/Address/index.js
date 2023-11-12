@@ -56,9 +56,9 @@ const AddressPopup = (props) => {
                     province: province[0].name,
                     district: district[0][0].name,
                     ward: ward[0][0][0].name,
-                    describe: describe
-                },
-                type: "nha rieng"
+                    describe: describe,
+                    type: "nha rieng"
+                }
             })
                 .then(
                     res => {

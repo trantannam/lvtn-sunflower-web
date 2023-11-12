@@ -12,13 +12,12 @@ import { NotificationManager } from "react-notifications";
 function ProductCate(props) {
 
     const customer = useSelector(state => state.auth.login.currentUser);
-    console.log("customer",customer)
     const [listLoveProducts, setListLovePhroducts] = useState([]);
 
 
-    const getLoveProduct = async ()=>{
+    const getLoveProduct = async () => {
         await request.get(`/customer/love-product/${customer._id}`)
-            .then(res =>{
+            .then(res => {
                 if (res.data.success) {
                     console.log(res.data.list_loveproducts)
                     setListLovePhroducts(res.data.list_loveproducts)
@@ -30,7 +29,7 @@ function ProductCate(props) {
     useEffect(() => {
         getLoveProduct()
     }, [])
-    
+
     const handleAddLoveProduct = async (product) => {
         await request.post("/customer/add-love-product", { id: customer._id, product: product })
             .then(res => {
@@ -41,9 +40,8 @@ function ProductCate(props) {
                     NotificationManager.error("Có lỗi trong quá trình thêm sản phẩm vào mục yêu thích!")
                 }
             })
-            .catch(
-                NotificationManager.error("Có lỗi trong quá trình thêm sản phẩm vào mục yêu thích!")
-            )
+            .catch(error => NotificationManager.error("Có lỗi trong quá trình thêm sản phẩm vào mục yêu thích!", error))
+
     }
 
     const handleRemoveLoveProduct = async (product) => {
@@ -56,8 +54,8 @@ function ProductCate(props) {
                     NotificationManager.error("Có lỗi trong quá trình xóa sản phẩm khỏi mục yêu thích!");
                 }
             })
-            .catch(
-                NotificationManager.error("Có lỗi trong quá trình xóa sản phẩm khỏi mục yêu thích!")
+            .catch(error =>
+                NotificationManager.error("Có lỗi trong quá trình xóa sản phẩm khỏi mục yêu thích!", error)
             )
     }
 
@@ -75,7 +73,7 @@ function ProductCate(props) {
                                 <div className="product-item">
                                     <div className="product-img">
                                         <Link to={`/detail-product/${product._id}`}>
-                                            <img src={`${apiURL}` + product.image} alt='' />
+                                            <img src={`${apiURL}` + product.image[0]} alt='' />
                                         </Link>
                                         {!listLoveProducts.includes(product._id) ? <AiOutlineHeart className="heart" onClick={() => handleAddLoveProduct(product._id)} /> : <AiFillHeart onClick={() => handleRemoveLoveProduct(product._id)} className="clicked-heart" />}
                                     </div>

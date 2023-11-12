@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import request from "../../utils/request";
 import "./DetailProduct.css";
 import Slider from "react-slick";
-import 'slick-carousel/slick/slick.css'
+import 'slick-carousel/slick/slick.css' 
 import 'slick-carousel/slick/slick-theme.css'
 import { apiURL } from "../../utils/callAPI";
 import { useNavigate, useParams } from "react-router-dom";
@@ -16,9 +16,10 @@ function DetailProduct() {
     const [showAddress, setShowAddress] = useState();
 
     const [item, setItem] = useState([]);
+    const [image, setImage] = useState([]);
     const [quantity, setQuantity] = useState(1);
     const infoCustomer = useSelector((state) => state.auth.login.currentUser);
-    const { cart } = useSelector(state => state)
+    const { cart } = useSelector(state => state);
     const navigate = useNavigate();
 
     const { id } = useParams();
@@ -26,23 +27,33 @@ function DetailProduct() {
     useEffect(() => {
         request.get(`/product/${id}`)
             .then(res => {
-                const data = res.data.data
-                setItem(data)
-                document.title = data.product_name
+                const data = res.data.data;
+                console.log("res", res.data.data.image)
+                setItem(data);
+                setImage(data.image)
+                document.title = data.product_name;
             })
     }, [id]);
     const handleOnChance = (value) => {
         setQuantity(value);
     }
 
-    var view = {
+    const view = {
+        customPaging: function (i) {
+            return (
+                <a>
+                    {i && i.map((link) => <img src={`${apiURL}` + link} alt="" />)}
+                </a>
+            );
+        },
+        variableWidth: true,
         dots: true,
+        dotsClass: "slick-dots slick-thumb",
         infinite: true,
         speed: 500,
         slidesToShow: 1,
         slidesToScroll: 1,
-        arrows: false,
-        fade: true
+        
     };
 
     // function getCart(customerID, productID) {
@@ -97,33 +108,33 @@ function DetailProduct() {
         }
     }
 
-    const handleBuyNow=(id)=>{
+    const handleBuyNow = (id) => {
         handleAddToCart(item._id);
         navigate("/cart")
     }
     return (
         <>
-        <AddressPopup 
-            show={showAddress}
-            close= {setShowAddress}
-        />
-        <div className="container">
-            <div className="top-detail-product">
-                <div className="row">
-                    <div className="col-image">
-                        <Slider {...view}  >
-                            <img src={`${apiURL}` + item.image} alt=""/>
-                        </Slider>
-                    </div>
-                    <div className="col-info">
-                        <h1 className="title" itemProp="name">{item.product_name}</h1>
-                        <div className="product-feture"><p>Sản phẩm bao gồm:</p></div>
-                        <p className="image-notice"><small>Sản phẩm thực nhận có thể khác với hình đại diện trên website (đặc điểm thủ công và tính chất tự nhiên của hàng nông nghiệp)</small></p>
+            <AddressPopup
+                show={showAddress}
+                close={setShowAddress}
+            />
+            <div className="container">
+                <div className="top-detail-product">
+                    <div className="row">
+                        <div className="col-image" >
+                            <Slider {...view.customPaging(image)} style={{width:"500px", height:"500px"}} >
+                                {image && image.map((link, index) => <div key={index}> <img style={{width:"100%", height:"inherit"}} src={`${apiURL}` + link} alt="" /></div>)}
+                            </Slider>
+                        </div>
+                        <div className="col-info">
+                            <h1 className="title" itemProp="name">{item.product_name}</h1>
+                            <div className="product-feture"><p>Sản phẩm bao gồm:</p></div>
+                            <p className="image-notice"><small>Sản phẩm thực nhận có thể khác với hình đại diện trên website (đặc điểm thủ công và tính chất tự nhiên của hàng nông nghiệp)</small></p>
 
-                        <hr />
-                        <div className="product-info quantity">
-                            <p>Số lượng</p>
-                            
+                            <hr />
+                            <div className="product-info quantity">
+                                <p>Số lượng</p>
+
                                 <div className="input-group">
                                     <span className="input-group-btn input-group-prepend">
                                         <button className="btn btn-primary" onClick={() => setQuantity(item => item === 1 ? item : item -= 1)} type="button">-</button>
@@ -134,24 +145,24 @@ function DetailProduct() {
                                     </span>
                                 </div>
 
-                        </div>
-                        <hr />
-                        <p>Giá bán tại shop: </p>
-                        <div className="price">{item.price > 0 ? item.price.toLocaleString() : 0} đ / Bó</div>
-                        <div className="btn-box">
-                            <button className="hidden toggle-popupCart" type="button"></button>
-                            <button className="btn btn-buy"
-                                onClick={()=>
-                                    handleBuyNow(item._id)
-                                }
-                                type="button"
-                            >Mua ngay</button>
-                            <button className="btn btn-add-to-cart" type="button" onClick={() => handleAddToCart(item._id)}>Thêm vào giỏ</button>
+                            </div>
+                            <hr />
+                            <p>Giá bán tại shop: </p>
+                            <div className="price">{item.price > 0 ? item.price.toLocaleString() : 0} đ / Bó</div>
+                            <div className="btn-box">
+                                <button className="hidden toggle-popupCart" type="button"></button>
+                                <button className="btn btn-buy"
+                                    onClick={() =>
+                                        handleBuyNow(item._id)
+                                    }
+                                    type="button"
+                                >Mua ngay</button>
+                                <button className="btn btn-add-to-cart" type="button" onClick={() => handleAddToCart(item._id)}>Thêm vào giỏ</button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
         </>
     );
 }

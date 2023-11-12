@@ -12,15 +12,15 @@ const LoginPopup = (props) => {
     const [passWord, setPassWord] = useState("");
     const [showPass, setShowPass] = useState(false);
     const dispatch = useDispatch();
-    const naviagte = useNavigate();
+    const navigate = useNavigate();
 
 
     const handleLogin = async () => {
         if (passWord !== "" && phoneNumber !== "") {
-            await loginUser({ phone_number: phoneNumber, password: passWord }, dispatch, naviagte);
+            await loginUser({ phone_number: phoneNumber, password: passWord }, dispatch, navigate);
             NotificationManager.success('Đăng nhập thành công');
             props.closePopup(false);
-        } else (alert('ban chua nhap pass hay sdt'))
+        } else (alert('Bạn chưa nhập đầy đủ thông tin'))
     }
 
     const showResgisterPopup = () => {
