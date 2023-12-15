@@ -13,7 +13,7 @@ import Member from "../pages/Member";
 //public routes for customer don't have account
 const publicRoutes = [
     { path: '/', component: Home},
-    { path: '/detail-product/:id', component: DetailPage, layout: ChildLayout},
+    { path: '/detail-product/:id', component: DetailPage},
     { path: '/admin', component: Admin, layout: HeaderAdmin},
     { path: '/info', component: Info, layout: null },
     { path: '/cart', component: Cart },

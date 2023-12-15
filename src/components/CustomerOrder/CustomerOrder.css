@@ -1,7 +1,7 @@
 .his-order>p{
-    color: rgb(13, 158, 0);
+    color: rgb(12 118 0);
     font-weight: 800;
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     padding: 8px 0 15px 5px;
 }
 
@@ -17,21 +17,46 @@
     max-width: 100%;
     margin-top: 10px;
     margin-bottom: 20px;
-
+    border-collapse: collapse;
 }
 
 table, td, th {
-    border: 2px solid #efefef;
     text-align: left;
     padding: 8px;
     font-weight: 100;
+    cursor: pointer;
 }
 
 table>thead>tr>th {
     font-weight: 800;
+    height: 3.5rem;
+    background-color: #f2f2f2;
+}
+
+table>tbody>tr:hover {
+    background-color: aquamarine;
 }
   
-table {
+
+tr:nth-child(even) {background-color: #f2f2f2;}
+
+.patination{
+    float: right;
+    display: flex;
+}
+
+nav>ul>li{
     width: 100%;
-    border-collapse: collapse;
+    border: 1px solid #efefef;
+    padding: 10px 15px;
+    cursor: pointer;
+    color: rgb(255, 115, 0);
+    font-size: 20px;
+}
+
+.active{
+    background-color: rgb(12 118 0);
+    color: white;
+    box-shadow: 5px 1px;
+
 }

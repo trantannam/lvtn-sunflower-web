@@ -3,10 +3,11 @@
 .comment-product{
     border: 1px solid #efefef;
     border-radius: 8px;
-    padding: 0 2rem;
+    padding: 0 2rem 2rem 2rem;
     margin-left: 1rem;
     width: 100%;
-    height: 1000px;
+    height: max-content;
+    margin-bottom: 2rem;
 }
 
 .comment-product .comment-group{
@@ -45,7 +46,7 @@
     float: right;
     margin: 0 8px 4px 0;
     color: #fff;
-    background-color: blue;
+    background-color: rgb(12 118 0);
     padding: 10px 25px;
     border: none;
     font-size: 1rem;

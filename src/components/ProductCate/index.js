@@ -63,38 +63,41 @@ function ProductCate(props) {
     return (
         <div>
             <NotificationContainer />
-            <div className="container">
-                <div className="group-product-wrap">
-                    <h2>{props.title.toUpperCase()}</h2>
-                    <div className="row product">
-                        {/* product item render */}
-                        {props.listProduct.map((product, index) => (
-                            <div key={index} className="col-product-item">
-                                <div className="product-item">
-                                    <div className="product-img">
-                                        <Link to={`/detail-product/${product._id}`}>
-                                            <img src={`${apiURL}` + product.image[0]} alt='' />
-                                        </Link>
-                                        {!listLoveProducts.includes(product._id) ? <AiOutlineHeart className="heart" onClick={() => handleAddLoveProduct(product._id)} /> : <AiFillHeart onClick={() => handleRemoveLoveProduct(product._id)} className="clicked-heart" />}
-                                    </div>
-                                    <div className="product-title">
-                                        <Link to={`/detail-product/${product._id}`}>
-                                            <span>{product.product_name}</span>
-                                        </Link>
-                                    </div>
-                                    <div className="product-button-wrapper">
-                                        <div className="product-price">
-                                            <b>
-                                                <span className="notranslate">Giá: {product.price.toLocaleString()} đ</span>
-                                            </b>
-                                        </div>
+            {/* <div className="container"> */}
+            <div className="group-product-wrap">
+                <h2>{props?.title?.toUpperCase()}</h2>
+                <div className="row product">
+                    {/* product item render */}
+                    {props.listProduct.map((product, index) => (
+                        <div key={index} className="col-product-item">
+                            <div className="product-item">
+                                <div className="product-img">
+                                    <Link to={`/detail-product/${product._id}`}>
+                                        <img src={`${apiURL}` + product.image[0]} alt='' />
+                                    </Link>
+                                    {!listLoveProducts.includes(product._id)
+                                        ? <AiOutlineHeart className="heart" onClick={() => handleAddLoveProduct(product._id)} />
+                                        : <AiFillHeart onClick={() => handleRemoveLoveProduct(product._id)} className="clicked-heart" />
+                                    }
+                                </div>
+                                <div className="product-title">
+                                    <Link to={`/detail-product/${product._id}`}>
+                                        <span>{product.product_name}</span>
+                                    </Link>
+                                </div>
+                                <div className="product-button-wrapper">
+                                    <div className="product-price">
+                                        <b>
+                                            <span className="notranslate">Giá: {product.price.toLocaleString()} đ</span>
+                                        </b>
                                     </div>
                                 </div>
                             </div>
-                        ))}
-                    </div>
+                        </div>
+                    ))}
                 </div>
             </div>
+            {/* </div> */}
         </div>
     );
 }

@@ -1,6 +1,6 @@
 import request from "../../utils/request";
 import { useEffect, useState } from "react";
-import { useSelector} from "react-redux";
+import { useSelector } from "react-redux";
 import "./Comment.css";
 import { useParams } from "react-router-dom";
 import countTime from "../CountTime";
@@ -9,19 +9,22 @@ import countTime from "../CountTime";
 function Comment() {
     const [listComment, setListComment] = useState([]);
     const customerId = useSelector(state => state.auth.login.currentUser);
+    const [comment, setComment] = useState("");
 
     const postComment = async (e) => {
         e.preventDefault();
-            request.post("/comment/postcomment", {
-                content: document.getElementById("contentbox").value,
-                product: window.location.pathname.split("/")[2],
-                customer: customerId
-            })
-            .then(res=>{
-                console.log("res", res);
+        request.post("/comment/postcomment", {
+            content: document.getElementById("contentbox").value,
+            product: window.location.pathname.split("/")[2],
+            customer: customerId
+        })
+            .then(res => {
+                setComment(res.data.comment);
+                document.getElementById("contentbox").value="";
             })
     }
     const { id } = useParams();
+
     useEffect(() => {
         request.get(`/comment/${id}`)
             .then(res => {
@@ -29,7 +32,7 @@ function Comment() {
                     setListComment(res.data.allComment);
                 }
             })
-    }, [id]);
+    }, [comment]);
 
     return (
         <div className="comment-product">
@@ -39,7 +42,7 @@ function Comment() {
                     {/* <input className="content"></input> */}
                     <textarea id="contentbox" className="content" placeholder="Mời bạn nhập bình luận tại đây..."></textarea>
                     <div className="button-group">
-                        <button className="send" onClick={(e)=>postComment(e) }>Gửi</button>
+                        <button className="send" onClick={(e) => postComment(e)}>Gửi</button>
                     </div>
                 </form>
             </div>

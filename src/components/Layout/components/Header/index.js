@@ -19,17 +19,6 @@ function Header(props) {
     const { cart } = useSelector(state => state)
     const navigate = useNavigate();
 
-    //count item in cart
-    function cartTotal() {
-        if (cart.products.length) {
-            return cart.products.reduce(
-                (sum, product) => (
-                    sum + product.quantity
-                ), 0)
-        } else {
-            return 0
-        }
-    }
 
     //get list products
     async function getListProduct() {
@@ -111,7 +100,7 @@ function Header(props) {
                                     <div className="icon">
                                         <Link to={"/Cart"}>
                                             <GiShoppingCart />
-                                            <span id="cart-num"><p className="num">{cartTotal()}</p></span>
+                                            <span id="cart-num"><p className="num">{cart?.products.length}</p></span>
                                         </Link>
                                     </div>
                                 </div>

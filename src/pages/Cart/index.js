@@ -21,14 +21,14 @@ function Cart() {
         dispatch(removeProduct({ id }))
         NotificationManager.success('Xóa thành công.');
     }
-    
+
     const handleQuantityChange = (id, quantity) => {
         if (quantity === 0) return;
         if (quantity === 50) return;
         dispatch(quantityProduct({ id, quantity }));
     }
-    
-    function calcTotal () {
+
+    function calcTotal() {
         if (cart.products.length) {
             return cart.products.reduce(
                 (sum, product) => (
@@ -39,7 +39,7 @@ function Cart() {
         }
     }
 
-    const pay = () =>{
+    const pay = () => {
         console.log(userInfo)
         if (userInfo) {
             return navigate("/payment")
@@ -48,7 +48,18 @@ function Cart() {
         }
     }
 
-    useEffect(()=>{calcTotal()},[listProduct]);
+    function cartTotal() {
+        if (cart.products.length) {
+            return cart.products.reduce(
+                (sum, product) => (
+                    sum + product.quantity
+                ), 0)
+        } else {
+            return 0
+        }
+    }
+
+    useEffect(() => { calcTotal() }, [listProduct]);
 
     useEffect(() => {
         setListProduct(cart.products)
@@ -71,14 +82,10 @@ function Cart() {
                             <div className="body-item product-info">
                                 <div className="cart-product">
                                     <div className="p-image">
-                                        <img src={apiURL + `${item.image[0]}`} alt="Bình Hoa Niềm Vui Nhỏ Bé 262" />
+                                        <img src={apiURL + `${item.image[0]}`} alt="" />
                                     </div>
                                     <div className="p-info">
-                                        <Link className="p-name" to={"/"}>{item.name}</Link>
-                                        {/* <a className="p-name" href="https://shop.dalathasfarm.com/a5/binh-hoa-niem-vui-nho-be-262-p1452.html" title="Bình Hoa Niềm Vui Nhỏ Bé 262">product name</a> */}
-                                        {/* button flower love */}
-                                        {/* <a className="wishlist" data-toggle="modal" data-keyboard="false" data-backdrop="static" data-target="#loginModal" title="Yêu thích"><img width="20" src="https://shop.dalathasfarm.com/public/dalathasfarm/images/like-2.png"/>Yêu thích</a> */}
-
+                                        <Link className="p-name" to={`/detail-product/${item.productId}`}>{item.name}</Link>
                                     </div>
                                 </div>
                             </div>
@@ -95,13 +102,12 @@ function Cart() {
                                         type="text"
                                         disabled
                                         name="quantity"
-                                        value={item.quantity}/>
+                                        value={item.quantity} />
                                     <span className="input-group-btn input-group-append">
                                         <button className="btn btn-primary bootstrap-touchspin-up" onClick={() => handleQuantityChange(item.productId, item.quantity + 1)} type="button">+</button>
                                     </span>
 
                                 </div>
-                                {/* <input name="item_qty_current" value={1} type="hidden" /> */}
                             </div>
                             <div className="body-item total">
                                 <span>{(item.price * item.quantity).toLocaleString()} đ</span>
@@ -129,7 +135,7 @@ function Cart() {
                 <div className="border-wrapp padding-0">
                     <div className="order-cart-header">
                         <p>Giỏ hàng của tôi</p>
-                        <p className="total-item">10 SP</p>
+                        <p className="total-item">{cartTotal()} SP</p>
                     </div>
                     <div className="order-cart-content">
                         <div className="order-cart-content-item">
@@ -147,7 +153,7 @@ function Cart() {
                     </div>
                 </div>
                 <div className="btn-box">
-                    <i className="btn btn-buy btn-confirm" onClick={()=>pay()}>TIẾP TỤC</i>
+                    <i className="btn btn-buy btn-confirm" onClick={() => pay()}>TIẾP TỤC</i>
                 </div>
             </div>
         </div>

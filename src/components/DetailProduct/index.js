@@ -3,22 +3,18 @@ import { useDispatch, useSelector } from "react-redux";
 import request from "../../utils/request";
 import "./DetailProduct.css";
 import Slider from "react-slick";
-import 'slick-carousel/slick/slick.css' 
+import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 import { apiURL } from "../../utils/callAPI";
 import { useNavigate, useParams } from "react-router-dom";
-import AddressPopup from "../Address";
 import { addProductToCart } from "../../redux/cartSlice";
 import { NotificationManager } from 'react-notifications';
 
 function DetailProduct() {
 
-    const [showAddress, setShowAddress] = useState();
-
     const [item, setItem] = useState([]);
     const [image, setImage] = useState([]);
     const [quantity, setQuantity] = useState(1);
-    const infoCustomer = useSelector((state) => state.auth.login.currentUser);
     const { cart } = useSelector(state => state);
     const navigate = useNavigate();
 
@@ -28,7 +24,6 @@ function DetailProduct() {
         request.get(`/product/${id}`)
             .then(res => {
                 const data = res.data.data;
-                console.log("res", res.data.data.image)
                 setItem(data);
                 setImage(data.image)
                 document.title = data.product_name;
@@ -42,7 +37,7 @@ function DetailProduct() {
         customPaging: function (i) {
             return (
                 <a>
-                    {i && i.map((link) => <img src={`${apiURL}` + link} alt="" />)}
+                    {i && i.map((link, index) => <img key={index} src={`${apiURL}` + link} alt=" " />)}
                 </a>
             );
         },
@@ -53,37 +48,9 @@ function DetailProduct() {
         speed: 500,
         slidesToShow: 1,
         slidesToScroll: 1,
-        
+
     };
 
-    // function getCart(customerID, productID) {
-    //     request.post("/cart/getcart", { customerID: customerID })
-    //         .then(res => {
-    //             if (res.data.success === false) {
-    //                 request.post("/cart/createcart",
-    //                     {
-    //                         customerID: customerID,
-    //                         product: {
-    //                             productID: productID,
-    //                             quantity: amount.value
-    //                         }
-    //                     }).then(res => {
-    //                         navigate("/cart");
-    //                         console.log("createCart: ", res)
-    //                     })
-    //             } else {
-    //                 request.post("/cart/addcart", {
-    //                     _id: res.data.listCart._id,
-    //                     product: {
-    //                         productID: productID,
-    //                         quantity: amount.value
-    //                     }
-    //                 }).then(res => {
-    //                     navigate("/cart");
-    //                 })
-    //             }
-    //         })
-    // }
     const dispatch = useDispatch();
 
     const handleAddToCart = (id) => {
@@ -114,21 +81,24 @@ function DetailProduct() {
     }
     return (
         <>
-            <AddressPopup
-                show={showAddress}
-                close={setShowAddress}
-            />
             <div className="container">
+                <div style={{height:40}}/>
                 <div className="top-detail-product">
                     <div className="row">
                         <div className="col-image" >
-                            <Slider {...view.customPaging(image)} style={{width:"500px", height:"500px"}} >
-                                {image && image.map((link, index) => <div key={index}> <img style={{width:"100%", height:"inherit"}} src={`${apiURL}` + link} alt="" /></div>)}
+                            <Slider {...view.customPaging(image)} style={{ width: "500px", height: "500px" }} >
+                                {image && image.map((link, index) =>
+                                    <div key={index}>
+                                        <img style={{ width: "100%", height: "inherit" }} src={`${apiURL}` + link} alt=" " />
+                                    </div>
+                                )}
                             </Slider>
                         </div>
                         <div className="col-info">
                             <h1 className="title" itemProp="name">{item.product_name}</h1>
-                            <div className="product-feture"><p>Sản phẩm bao gồm:</p></div>
+                            {/* <div className="product-feture"><p>Sản phẩm bao gồm:</p></div> */}
+                            <div className="product-feture"><p style={{ whiteSpace: "break-spaces" }}>{item.description}</p></div>
+                            {/* <textarea value={item.description} style={{width:"100%", height:200}}></textarea> */}
                             <p className="image-notice"><small>Sản phẩm thực nhận có thể khác với hình đại diện trên website (đặc điểm thủ công và tính chất tự nhiên của hàng nông nghiệp)</small></p>
 
                             <hr />

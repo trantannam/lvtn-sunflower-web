@@ -39,9 +39,16 @@
 }
 
 .member-menu .menu p{
-    padding: 8px;
+    padding: 20px;
     font-size: 1.2rem;
     cursor: pointer;
+    height: 60px;
+    display: flex;
+}
+
+.member-menu .menu .item{
+    background-color: rgb(12 118 0);
+    color: white;
 }
 
 .wrapper .right-wrap{

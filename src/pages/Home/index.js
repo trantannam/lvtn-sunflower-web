@@ -13,7 +13,8 @@ function Home() {
 
     //products category
     const [productCategory, setProductCategory] = useState([]);
-    const [detectPopup, setDetectPopup] = useState(false);
+    const [title, setTitle] = useState('Danh mục sản phẩm')
+    const [idClick, setIdClick] = useState("");
 
     async function getProduct() {
         await request.get(`/product`)
@@ -26,23 +27,40 @@ function Home() {
     }
     useEffect(() => { getProduct(); }, [])
 
+    const getListProductType = () => {
+        if (idClick) {
+            const productType = productCategory.filter(item => item.product_type._id === idClick)
+            if (productType) {
+                setTitle(productType[0]?.product_type.name);
+                setProductCategory([])
+                setProductCategory(productType);
+            }
+            console.log("productCategory", productCategory)
+        }
+    }
+
+    useEffect(()=>{
+        getListProductType()
+    }, [idClick]) 
+
     return (
         <>
             <HeadProvider>
                 <div>
-                    <Title>Title of page</Title>
+                    <Title>Sun-flower</Title>
                     <Link rel="canonical" href="http://jeremygayed.com/" />
                     <Meta name="example" content="whatever" />
                 </div>
             </HeadProvider>
             <div>
-                <TopContent />
-                <ContentProduct />
+                <TopContent click={setIdClick} />
+                {/* <ContentProduct /> */}
+                <div style={{height:40}}/>
                 <ProductCate
-                    title={'Danh mục sản phẩm'}
+                    title={title}
                     listProduct={productCategory}
                 />
-                <DetectFlower/>
+                <DetectFlower />
             </div>
         </>
     );

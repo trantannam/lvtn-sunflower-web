@@ -43,8 +43,8 @@ const LoginPopup = (props) => {
                     <p>Mật khẩu</p>
                     <input type={showPass ? "text" : "password"} className="form-control" placeholder="Mật khẩu" onChange={(e) => setPassWord(e.target.value)} />
                     {showPass ?
-                        <AiOutlineEye className="show-passwork" onClick={()=>setShowPass(false)}/> :
-                        <AiOutlineEyeInvisible className="show-passwork" onClick={()=>setShowPass(true)}/>}
+                        <AiOutlineEye className="show-passwork" onClick={() => setShowPass(false)} /> :
+                        <AiOutlineEyeInvisible className="show-passwork" onClick={() => setShowPass(true)} />}
                 </div>
                 <div className="form-group checkbox-group">
                     <div className="remember-me">
@@ -52,7 +52,15 @@ const LoginPopup = (props) => {
                     </div>
                     <div><Link className="forgot-password">Quên mật khẩu?</Link></div>
                 </div>
-                <div className="form-group login-button"><button className="btn btn-login" onClick={() => handleLogin()}>Đăng nhập</button></div>
+                <div className="form-group login-button">
+                    <button 
+                    className="btn btn-login" 
+                    onClick={() => handleLogin()}
+                    style={{marginTop:30,marginRight:16}}
+                    >
+                        Đăng nhập
+                    </button>
+                    </div>
                 <div className="form-group login-button">
                     <p>Bạn chưa có tài khoản?
                         <button

@@ -19,7 +19,7 @@ const DetectPopup = (props) => {
 
     const handleConfirm = async () => {
         formData.append("image_file", image, "image_file")
-        await axios.post("http://10.13.129.226:8080/detect", formData, {
+        await axios.post("http://172.20.10.14:8080/detect", formData, {
             headers: {
                 "Access-Control-Allow-Origin": '*',
                 "Content-Type": 'multipart/form-data'

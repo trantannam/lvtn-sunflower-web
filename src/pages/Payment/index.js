@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import AddressPopup from "../../components/Address";
 import { apiURL } from "../../utils/callAPI";
 import request from "../../utils/request";
 import "./Payment.css";
-import { MdHeadphones, MdOutlinePayments } from "react-icons/md";
+import { MdOutlinePayments } from "react-icons/md";
 import vnpaylogo from "../../img/logo/vnpay-logo2.png";
 import { NotificationContainer, NotificationManager } from "react-notifications";
 import { updateProduct } from "../../redux/cartSlice";
@@ -17,8 +16,6 @@ function Payment() {
     const user = useSelector((state) => state.auth.login.currentUser);
     const { cart } = useSelector(state => state)
     const dispatch = useDispatch();
-
-    const [cartId, setCardId] = useState("");
 
     //state address popup
     const [showAPopup, setShowAPopup] = useState(false);
@@ -37,14 +34,12 @@ function Payment() {
     const [hPhone, setHPhone] = useState(false);
 
     const [gender, setGender] = useState(true);
-    const [products, setProducts] = useState([]);
-    const [ship, setShip] = useState(0);
 
     //state receive
     const [receiver, setReceiver] = useState("");
     const [phoneReceiver, setPhoneReceiver] = useState("");
     const [diliveryAdd, setDiliveryAdd] = useState([]);
-    const [address, setAddress] = useState("")
+    const [address, setAddress] = useState("");
 
     //type payment
     let orange = "rgb(255, 130, 0)";
@@ -56,8 +51,6 @@ function Payment() {
     const [bGVnp, setBGVnp] = useState(white);
     const [textVnp, setTextVnp] = useState(black);
     const [clicked, setClicked] = useState("cod");
-
-    const navigate = useNavigate();
 
     const [receiveAtHome, setReceiveAtHome] = useState(true);
 
@@ -119,7 +112,7 @@ function Payment() {
                 },
                 totalEstimate: calcTotal(),
                 products: cart.products || [],
-                deliveryStatus: "waiting for progressing",
+                deliveryStatus: 0,
                 paymentStatus: "cod"
             }).then(
                 res => {
@@ -157,7 +150,7 @@ function Payment() {
                             },
                             products: cart.products || [],
                             totalEstimate: calcTotal(),
-                            deliveryStatus: "waiting for progressing",
+                            deliveryStatus: 0,
                             paymentStatus: "waiting for pay"
                         }).then(
                             res => {
@@ -371,7 +364,7 @@ function Payment() {
                                 Phí ship
                             </div>
                             <div className="price-item">
-                                {ship.toLocaleString()} đ
+                                0 đ
                             </div>
                         </div>
 
@@ -381,7 +374,7 @@ function Payment() {
                                 Tổng cộng
                             </div>
                             <div className="price-item">
-                                {(calcTotal() + ship).toLocaleString()} đ
+                                {(calcTotal()).toLocaleString()} đ
                             </div>
                         </div>
                     </div>

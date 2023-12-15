@@ -2,7 +2,7 @@ import 'react-notifications/lib/notifications.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { publicRoutes } from './routes';
 import { DefaultLayout } from './components/Layout';
-import { Fragment, useState } from 'react';
+import { Fragment } from 'react';
 import { NotificationContainer } from "react-notifications";
 
 function App() {

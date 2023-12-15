@@ -24,9 +24,9 @@ function Member() {
                 <hr />
                 <div className="member-menu">
                     <div className="menu">
-                        <p onClick={() => setIsClicked('myinfo')}>Thông tin tài khoản</p>
-                        <p onClick={() => setIsClicked('myorder')}>Đơn hàng của tôi</p>
-                        <p onClick={() => setIsClicked('likelist')}>Danh sách yêu thích</p>
+                        <p className={isClicked==='myinfo'?"item":""} onClick={() => setIsClicked('myinfo')}>Thông tin tài khoản</p>
+                        <p className={isClicked==='myorder'?"item":""} onClick={() => setIsClicked('myorder')}>Đơn hàng của tôi</p>
+                        <p className={isClicked==='likelist'?"item":""} onClick={() => setIsClicked('likelist')}>Danh sách yêu thích</p>
                     </div>
                 </div>
             </div>
